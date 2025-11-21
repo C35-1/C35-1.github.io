@@ -1,6 +1,7 @@
+
 // --- Liste des utilisateurs ---
 const users = [
-  { pseudo: "Lilian B", avatar: "https://i.pinimg.com/736x/cf/e6/da/cfe6da4317a5a131c8d13d15785774c1.jpg", birthday: { day: 10, month: 10, hour:0, minute:0, second:0, year:2002 } },
+  { pseudo: "Lilian B", avatar: "https://i.pinimg.com/736x/cf/e6/da/cfe6da4317a5a131c8d13d15785774c1.jpg", birthday: { day: 10, month: 10, hour:0, minute:0, second:0, year:null } },
   { pseudo: "MickaeL C", avatar: "https://i.pinimg.com/736x/91/3b/71/913b71d1adb5af6ba8cc951600baec3e.jpg", birthday: { day: 9, month: 11, hour:0, minute:0, second:0, year:null } },
   { pseudo: "Tracy G", avatar: "https://i.pinimg.com/736x/cf/e6/da/cfe6da4317a5a131c8d13d15785774c1.jpg", birthday: { day: 20, month: 0, hour:0, minute:0, second:0, year:null } },
   { pseudo: "Even C", avatar: "https://i.pinimg.com/736x/cf/e6/da/cfe6da4317a5a131c8d13d15785774c1.jpg", birthday: { day: 12, month: 1, hour:0, minute:0, second:0, year:null } },
@@ -19,7 +20,7 @@ const users = [
 ];
 
 // --- Confettis ---
-const confettiCount = 300;
+const confettiCount = 100;
 for(let i=0;i<confettiCount;i++){
   const div = document.createElement('div');
   div.className = 'confetti';
@@ -105,9 +106,9 @@ function updateCountdowns(){
       if(countdown) countdown.textContent="Joyeux anniversaire 🎉";
       if(ageText){
         if(b.year){
-            ageText.textContent = `Fêtera son ${parisNow.getFullYear()-b.year+1}ème anniversaire 🎉`;
+            ageText.textContent = `Fête son ${parisNow.getFullYear()-b.year}ème anniversaire 🎉`;
         } else {
-            ageText.textContent = `Fêtera son Xème anniversaire 🎉`;
+            ageText.textContent = `Fête son Xème anniversaire 🎉`;
         }
       }
 
