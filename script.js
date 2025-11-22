@@ -1,7 +1,7 @@
 
 // --- Liste des utilisateurs ---
 const users = [
-  { pseudo: "Lilian B", avatar: "https://i.pinimg.com/736x/cf/e6/da/cfe6da4317a5a131c8d13d15785774c1.jpg", birthday: { day: 10, month: 10, hour:0, minute:0, second:0, year:null } },
+  { pseudo: "Lilian B", avatar: "https://i.pinimg.com/736x/cf/e6/da/cfe6da4317a5a131c8d13d15785774c1.jpg", birthday: { day: 21, month: 10, hour:0, minute:0, second:0, year:2002 } },
   { pseudo: "MickaeL C", avatar: "https://i.pinimg.com/736x/91/3b/71/913b71d1adb5af6ba8cc951600baec3e.jpg", birthday: { day: 9, month: 11, hour:0, minute:0, second:0, year:null } },
   { pseudo: "Tracy G", avatar: "https://i.pinimg.com/736x/cf/e6/da/cfe6da4317a5a131c8d13d15785774c1.jpg", birthday: { day: 20, month: 0, hour:0, minute:0, second:0, year:null } },
   { pseudo: "Even C", avatar: "https://i.pinimg.com/736x/cf/e6/da/cfe6da4317a5a131c8d13d15785774c1.jpg", birthday: { day: 12, month: 1, hour:0, minute:0, second:0, year:null } },
@@ -65,13 +65,14 @@ users.forEach((user, index) => {
   </div>`;
 
   // 🔹 Texte âge si connu
-  let ageTextHtml = '';
-  if (b.year) {
-    let ageBefore = parisNow.getFullYear() - b.year;
-    if (parisNow.getMonth() > b.month || (parisNow.getMonth() === b.month && parisNow.getDate() < b.day)) ageBefore--;
-    let ageAfter = ageBefore + 1;
-    ageTextHtml = `<p class="age">${ageBefore} ans -> ${ageAfter} ans</p>`;
-  } else {
+let ageTextHtml = '';
+  if (b.year) {
+    let ageBefore = parisNow.getFullYear() - b.year;
+    // C'est ici que la logique est incorrecte (Anniversaire passé décompté)
+    if (parisNow.getMonth() > b.month || (parisNow.getMonth() === b.month && parisNow.getDate() < b.day)) ageBefore--; 
+    let ageAfter = ageBefore + 1;
+    ageTextHtml = `<p class="age">${ageBefore} ans -> ${ageAfter} ans</p>`;
+  } else {
     ageTextHtml = `<p class="age">X ans -> X ans</p>`;
   }
 
