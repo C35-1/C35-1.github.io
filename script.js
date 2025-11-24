@@ -65,14 +65,21 @@ users.forEach((user, index) => {
   </div>`;
 
   // 🔹 Texte âge si connu
-let ageTextHtml = '';
-  if (b.year) {
-    let ageBefore = parisNow.getFullYear() - b.year;
-    // C'est ici que la logique est incorrecte (Anniversaire passé décompté)
-    if (parisNow.getMonth() > b.month || (parisNow.getMonth() === b.month && parisNow.getDate() < b.day)) ageBefore--; 
-    let ageAfter = ageBefore + 1;
-    ageTextHtml = `<p class="age">${ageBefore} ans -> ${ageAfter} ans</p>`;
-  } else {
+  let ageTextHtml = '';
+  if (b.year) {
+    let ageBefore = parisNow.getFullYear() - b.year;
+    
+    // --- CORRECTION ---
+    // On enlève 1 an SI on est AVANT le mois de l'anniversaire
+    // OU SI on est dans le même mois mais AVANT le jour J
+    if (parisNow.getMonth() < b.month || (parisNow.getMonth() === b.month && parisNow.getDate() < b.day)) {
+        ageBefore--; 
+    }
+    // ------------------
+
+    let ageAfter = ageBefore + 1;
+    ageTextHtml = `<p class="age">${ageBefore} ans -> ${ageAfter} ans</p>`;
+  } else {
     ageTextHtml = `<p class="age">X ans -> X ans</p>`;
   }
 
@@ -137,6 +144,7 @@ function updateCountdowns(){
 
 updateCountdowns();
 setInterval(updateCountdowns,1000);
+
 
 
 
