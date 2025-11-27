@@ -17,6 +17,10 @@ const users = [
   { pseudo: "Thomas C", avatar: "https://i.pinimg.com/736x/cf/e6/da/cfe6da4317a5a131c8d13d15785774c1.jpg", birthday: { day: 18, month: 7, hour:0, minute:0, second:0, year:2002 } },
   { pseudo: "Mathieu A", avatar: "https://i.pinimg.com/736x/9e/1c/55/9e1c556dbc685e27c61f3f1c1be66b55.jpg", birthday: { day: 25, month: 8, hour:0, minute:0, second:0, year:1990 } },
   { pseudo: "Clément S", avatar: "https://i.pinimg.com/736x/cf/e6/da/cfe6da4317a5a131c8d13d15785774c1.jpg", birthday: { day: 13, month: 10, hour:0, minute:0, second:0, year:1987 } },
+{ pseudo: "Lorenzo M", avatar: "https://i.pinimg.com/736x/cf/e6/da/cfe6da4317a5a131c8d13d15785774c1.jpg", birthday: { day: 27, month: 8, hour:0, minute:0, second:0, year:2007 } },
+{ pseudo: "Alexia B", avatar: "https://i.pinimg.com/736x/cf/e6/da/cfe6da4317a5a131c8d13d15785774c1.jpg", birthday: { day: 21, month: 8, hour:0, minute:0, second:0, year:2002 } },
+
+
 ];
 
 // --- Confettis ---
@@ -144,6 +148,7 @@ function updateCountdowns(){
 
 updateCountdowns();
 setInterval(updateCountdowns,1000);
+
 
 
 
