@@ -7,7 +7,7 @@ const users = [
   { pseudo: "Even C", avatar: "https://i.pinimg.com/736x/cf/e6/da/cfe6da4317a5a131c8d13d15785774c1.jpg", birthday: { day: 12, month: 1, hour:0, minute:0, second:0, year:2002 } },
   { pseudo: "Jean L", avatar: "https://i.pinimg.com/736x/9e/1c/55/9e1c556dbc685e27c61f3f1c1be66b55.jpg", birthday: { day: 20, month: 1, hour:0, minute:0, second:0, year:1980 } },
   { pseudo: "Pierrick M", avatar: "https://i.pinimg.com/736x/cf/e6/da/cfe6da4317a5a131c8d13d15785774c1.jpg", birthday: { day: 4, month: 2, hour:0, minute:0, second:0, year:1991 } },
-  { pseudo: "Nicolas D", avatar: "https://i.pinimg.com/736x/9e/1c/55/9e1c556dbc685e27c61f3f1c1be66b55.jpg", birthday: { day: 9, month: 2, hour:0, minute:0, second:0, year:null } },
+  { pseudo: "Nicolas D", avatar: "https://i.pinimg.com/736x/9e/1c/55/9e1c556dbc685e27c61f3f1c1be66b55.jpg", birthday: { day: 9, month: 2, hour:0, minute:0, second:0, year:1991 } },
   { pseudo: "Zoahoui Z", avatar: "https://i.pinimg.com/736x/cf/e6/da/cfe6da4317a5a131c8d13d15785774c1.jpg", birthday: { day: 16, month: 2, hour:0, minute:0, second:0, year:1971 } },
   { pseudo: "Frédéric N", avatar: "https://i.pinimg.com/736x/9e/1c/55/9e1c556dbc685e27c61f3f1c1be66b55.jpg", birthday: { day: 29, month: 3, hour:0, minute:0, second:0, year:null } },
   { pseudo: "Nadejki C", avatar: "https://i.pinimg.com/736x/cf/e6/da/cfe6da4317a5a131c8d13d15785774c1.jpg", birthday: { day: 28, month: 5, hour:0, minute:0, second:0, year:1985 } },
@@ -148,6 +148,7 @@ function updateCountdowns(){
 
 updateCountdowns();
 setInterval(updateCountdowns,1000);
+
 
 
 
