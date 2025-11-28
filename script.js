@@ -23,13 +23,16 @@ const users = [
   
 ];
 
-// --- Confettis ---
-const confettiCount = 100;
+// --- Confettis avec emojis ---
+const emojis = ['🎉','✨','🥳','🎊','🍀','🌟']; // liste des emojis à utiliser
+const confettiCount = 40;
+
 for(let i=0;i<confettiCount;i++){
   const div = document.createElement('div');
   div.className = 'confetti';
   div.style.left = Math.random()*100+'vw';
-  div.style.backgroundColor = ['#FFD700','#FF69B4','#00FFFF','#FF4500'][Math.floor(Math.random()*4)];
+  div.style.fontSize = (12 + Math.random()*18) + 'px'; // taille aléatoire
+  div.textContent = emojis[Math.floor(Math.random() * emojis.length)];
   div.style.animationDuration = (3 + Math.random()*5)+'s';
   div.style.setProperty("--round", Math.random() > 0.5 ? 1 : 0);
   document.body.appendChild(div);
@@ -148,6 +151,7 @@ function updateCountdowns(){
 
 updateCountdowns();
 setInterval(updateCountdowns,1000);
+
 
 
 
