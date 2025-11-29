@@ -153,7 +153,11 @@
 .sort-btn.active {
     background: var(--primary-gradient);
     color: white;
-    border-color: transparent;
+    /* On garde la bordure pour ne pas changer la taille du bouton, mais on la rend transparente */
+    border: 1px solid transparent; 
+    /* LE FIX EST ICI : On oblige le fond à aller jusque sous la bordure */
+    background-origin: border-box; 
+    background-clip: padding-box, border-box;
     transform: translateY(-2px);
 }
 
@@ -172,8 +176,11 @@
     .month-filter.active {
         background: var(--primary-gradient);
         color: white;
-        border-color: transparent;
-        transform: translateY(-2px);
+border: 1px solid transparent;
+    /* LE FIX EST ICI */
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+    transform: translateY(-2px);
     }
 
     /* CONTAINER */
