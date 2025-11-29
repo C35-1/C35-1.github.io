@@ -128,6 +128,35 @@
         padding: 0 20px 20px;
     }
 
+    /* BOUTONS DE TRI */
+.sort-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    padding: 0 20px 15px;
+}
+
+.sort-btn {
+    padding: 8px 16px;
+    background: var(--card-bg-base);
+    border: 1px solid rgba(250, 250, 250, 0.3);
+    border-radius: 20px;
+    color: #b0b0c0;
+    font-size: 0.85em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Poppins', sans-serif;
+}
+
+.sort-btn:hover,
+.sort-btn.active {
+    background: var(--primary-gradient);
+    color: white;
+    border-color: transparent;
+    transform: translateY(-2px);
+}
+
     .month-filter {
         padding: 8px 16px;
         background: var(--card-bg-base);
@@ -320,6 +349,27 @@
         .stats-container { gap: 10px; }
         .user-container { width: 100%; max-width: 320px; }
     }
+
+    /* SIGNE ASTROLOGIQUE */
+.zodiac {
+    margin: 10px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.zodiac-symbol {
+    font-size: 1.2em;
+}
+
+.zodiac-name {
+    margin: -10px 0;
+    font-size: 0.65em;
+    color: #b0b0c0;
+    font-weight: 400;
+}
+
   </style>
 </head>
 <body>
@@ -347,6 +397,14 @@
     </div>
   </div>
 
+  <!-- NOUVEAU : Boutons de tri -->
+<div class="sort-container">
+  <button class="sort-btn active" data-sort="proximity">📅 Proximité</button>
+  <button class="sort-btn" data-sort="name">🔤 Nom (A-Z)</button>
+  <button class="sort-btn" data-sort="age">🎂 Âge</button>
+  <button class="sort-btn" data-sort="month">📆 Mois</button>
+</div>
+
   <div class="filters-container">
     <button class="month-filter active" data-month="all">Tous</button>
     <button class="month-filter" data-month="0">Janvier</button>
@@ -367,7 +425,7 @@
 
   <script>
     const users = [
-      { pseudo: "TEST", avatar: "https://cdn.discordapp.com/attachments/1221541965460668498/1444351068610891984/1c1de053ad4e984bdd23e4bcc2829090.png?ex=692c6441&is=692b12c1&hm=3051ada44a6084e25131eb1b433d139f476dc5381a89b7eec0ad290c807f39dd&", birthday: { day: 29, month: 10, hour:0, minute:0, second:0, year:2002 } },
+      { pseudo: "TEST", avatar: "https://cdn.discordapp.com/attachments/1221541965460668498/1444351068610891984/1c1de053ad4e984bdd23e4bcc2829090.png?ex=692c6441&is=692b12c1&hm=3051ada44a6084e25131eb1b433d139f476dc5381a89b7eec0ad290c807f39dd&", birthday: { day: 30, month: 10, hour:0, minute:0, second:0, year:2002 } },
       { pseudo: "Lilian B", avatar: "https://cdn.discordapp.com/attachments/1221541965460668498/1444351068610891984/1c1de053ad4e984bdd23e4bcc2829090.png?ex=692c6441&is=692b12c1&hm=3051ada44a6084e25131eb1b433d139f476dc5381a89b7eec0ad290c807f39dd&", birthday: { day: 21, month: 10, hour:0, minute:0, second:0, year:2002 } },
       { pseudo: "MickaeL C", avatar: "https://cdn.discordapp.com/attachments/1221541965460668498/1444350485917339800/dd7ecadc4448976b4beecef1bf0d678b.png?ex=692c63b6&is=692b1236&hm=b6d050af2b6e2aafab508af08809e93caac94b734cab53d8664df6ff0132ceae&", birthday: { day: 9, month: 11, hour:0, minute:0, second:0, year:1992 } },
       { pseudo: "Tracy G", avatar: "https://cdn.discordapp.com/attachments/1221541965460668498/1444350642981306500/64d8437e21236d3750e5b7e877b8b54a.png?ex=692c63dc&is=692b125c&hm=4d5a7af4de18e3267a90550bead01dd334bd4e50bd74f43ef21accb36e779b06&", birthday: { day: 20, month: 0, hour:0, minute:0, second:0, year:1993 } },
@@ -403,31 +461,48 @@
       document.body.appendChild(div);
     }
 
-    // Fonction signe astrologique
-    function getZodiacSign(day, month) {
-      const signs = [
-        {name: "♑", end: [1, 19]}, {name: "♒", end: [2, 18]}, {name: "♓", end: [3, 20]},
-        {name: "♈", end: [4, 19]}, {name: "♉", end: [5, 20]}, {name: "♊", end: [6, 20]},
-        {name: "♋", end: [7, 22]}, {name: "♌", end: [8, 22]}, {name: "♍", end: [9, 22]},
-        {name: "♎", end: [10, 22]}, {name: "♏", end: [11, 21]}, {name: "♐", end: [12, 21]},
-        {name: "♑", end: [12, 31]}
-      ];
-      for (let sign of signs) {
-        if (month < sign.end[0] || (month === sign.end[0] && day <= sign.end[1])) {
-          return sign.name;
-        }
-      }
-      return signs[0].name;
+function getZodiacSign(day, month) {
+  const signs = [
+    {name: "Capricorne", symbol: "♑", end: [1, 19]},
+    {name: "Verseau", symbol: "♒", end: [2, 18]},
+    {name: "Poissons", symbol: "♓", end: [3, 20]},
+    {name: "Bélier", symbol: "♈", end: [4, 19]},
+    {name: "Taureau", symbol: "♉", end: [5, 20]},
+    {name: "Gémeaux", symbol: "♊", end: [6, 20]},
+    {name: "Cancer", symbol: "♋", end: [7, 22]},
+    {name: "Lion", symbol: "♌", end: [8, 22]},
+    {name: "Vierge", symbol: "♍", end: [9, 22]},
+    {name: "Balance", symbol: "♎", end: [10, 22]},
+    {name: "Scorpion", symbol: "♏", end: [11, 21]},
+    {name: "Sagittaire", symbol: "♐", end: [12, 21]},
+    {name: "Capricorne", symbol: "♑", end: [12, 31]}
+  ];
+  
+  for (let sign of signs) {
+    if (month < sign.end[0] || (month === sign.end[0] && day <= sign.end[1])) {
+      return sign; // Retourne l'objet complet
     }
+  }
+  return signs[0];
+}
 
-    function timeUntilBirthday(birthday){
-      const now = new Date();
-      const parisNow = new Date(now.toLocaleString("en-US",{timeZone:"Europe/Paris"}));
-      let nextBirthday = new Date(parisNow.getFullYear(), birthday.month, birthday.day, 0, 0, 0);
-      if(parisNow.getDate() === birthday.day && parisNow.getMonth() === birthday.month) return 0;
-      if(parisNow > nextBirthday) nextBirthday.setFullYear(nextBirthday.getFullYear()+1);
-      return nextBirthday - parisNow;
-    }
+function timeUntilBirthday(birthday){
+  const now = new Date();
+  const parisNow = new Date(now.toLocaleString("en-US",{timeZone:"Europe/Paris"}));
+  let nextBirthday = new Date(parisNow.getFullYear(), birthday.month, birthday.day, 0, 0, 0);
+  
+  // Si c'est aujourd'hui mais pas encore l'heure
+  if(parisNow.getDate() === birthday.day && parisNow.getMonth() === birthday.month) {
+    return 0;
+  }
+  
+  // Si la date est déjà passée cette année, passer à l'année prochaine
+  if(parisNow > nextBirthday) {
+    nextBirthday.setFullYear(nextBirthday.getFullYear()+1);
+  }
+   
+  return nextBirthday - parisNow;
+}
 
     users.sort((a,b)=>timeUntilBirthday(a.birthday)-timeUntilBirthday(b.birthday));
 
@@ -441,14 +516,26 @@
       div.dataset.month = user.birthday.month;
 
       const b = user.birthday;
-      const now = new Date();
-      const parisNow = new Date(now.toLocaleString("en-US", { timeZone: "Europe/Paris" }));
-      
-      const daysUntil = Math.floor(timeUntilBirthday(b) / (1000 * 60 * 60 * 24));
-      let badge = '';
-      if (daysUntil === 0) badge = '<div class="proximity-badge badge-today">AUJOURD\'HUI 🎉</div>';
-      else if (daysUntil <= 7) badge = '<div class="proximity-badge badge-week">Dans ' + daysUntil + 'j</div>';
-      else if (daysUntil <= 30) badge = '<div class="proximity-badge badge-month">Ce mois</div>';
+const now = new Date();
+const parisNow = new Date(now.toLocaleString("en-US", { timeZone: "Europe/Paris" }));
+
+// Vérifier si c'est VRAIMENT aujourd'hui (même jour, même mois, même année)
+const isToday = parisNow.getDate() === b.day && parisNow.getMonth() === b.month;
+
+const msUntil = timeUntilBirthday(b);
+const daysUntil = Math.floor(msUntil / (1000 * 60 * 60 * 24));
+const hoursUntil = Math.floor(msUntil / (1000 * 60 * 60));
+
+let badge = '';
+if (isToday) {
+  badge = '<div class="proximity-badge badge-today">AUJOURD\'HUI 🎉</div>';
+} else if (hoursUntil < 24) {
+  badge = '<div class="proximity-badge badge-today">Dans quelques heures ⏰</div>';
+} else if (daysUntil <= 7) {
+  badge = '<div class="proximity-badge badge-week">Dans ' + daysUntil + 'j</div>';
+} else if (daysUntil <= 30) {
+  badge = '<div class="proximity-badge badge-month">Ce mois</div>';
+}
 
       const birthDateHtml = `<div class="birth-date">${b.day} ${monthNames[b.month] || ''} ${b.year || 'X'}</div>`;
       
@@ -466,16 +553,19 @@
 
       const zodiac = getZodiacSign(b.day, b.month + 1);
 
-      div.innerHTML = `
-        ${badge}
-        <img id="avatar${index}" class="avatar" src="${user.avatar}" alt="Avatar"/>
-        <h1 id="username${index}">${user.pseudo}</h1>
-        ${birthDateHtml}
-        <div class="zodiac">${zodiac}</div>
-        ${ageTextHtml}
-        <h2>Prochain anniversaire</h2>
-        <div id="birthday-countdown${index}" class="birthday-countdown">0 jours 0 h 0 min 0 s</div>
-      `;
+div.innerHTML = `
+  ${badge}
+  <img id="avatar${index}" class="avatar" src="${user.avatar}" alt="Avatar"/>
+  <h1 id="username${index}">${user.pseudo}</h1>
+  ${birthDateHtml}
+  <div class="zodiac">
+    <div class="zodiac-symbol">${zodiac.symbol}</div>
+    <div class="zodiac-name">${zodiac.name}</div>
+  </div>
+  ${ageTextHtml}
+  <h2>Prochain anniversaire</h2>
+  <div id="birthday-countdown${index}" class="birthday-countdown">0 jours 0 h 0 min 0 s</div>
+`;
       container.appendChild(div);
     });
 
@@ -553,6 +643,48 @@
         });
       });
     });
+
+    // Fonction de tri
+function sortUsers(sortType) {
+  const container = document.getElementById("users-container");
+  const cards = Array.from(container.children);
+  
+  cards.sort((a, b) => {
+    const userA = users.find(u => u.pseudo.toLowerCase() === a.dataset.name);
+    const userB = users.find(u => u.pseudo.toLowerCase() === b.dataset.name);
+    
+    switch(sortType) {
+      case 'name':
+        return userA.pseudo.localeCompare(userB.pseudo);
+      
+      case 'age':
+        if (!userA.birthday.year || !userB.birthday.year) return 0;
+        return userB.birthday.year - userA.birthday.year; // Plus jeune en premier
+      
+      case 'month':
+        if (userA.birthday.month !== userB.birthday.month) {
+          return userA.birthday.month - userB.birthday.month;
+        }
+        return userA.birthday.day - userB.birthday.day;
+      
+      case 'proximity':
+      default:
+        return timeUntilBirthday(userA.birthday) - timeUntilBirthday(userB.birthday);
+    }
+  });
+  
+  // Réorganiser les cartes dans le DOM
+  cards.forEach(card => container.appendChild(card));
+}
+
+// Gestionnaire de clic sur les boutons de tri
+document.querySelectorAll('.sort-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+    this.classList.add('active');
+    sortUsers(this.dataset.sort);
+  });
+});
 
     updateCountdowns();
     setInterval(updateCountdowns,1000);
