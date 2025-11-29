@@ -4,10 +4,558 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>C35 Anniversaire</title>
-  <link rel="stylesheet" href="style.css" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap');
+
+    /* VARIABLES */
+    :root {
+        --bg-deep: #050508;
+        --card-bg-base: #141219;
+        --primary-gradient: linear-gradient(135deg, #ff0000, #ffc800);
+        --avatar-glow-color: rgba(255, 168, 0, 0.6);
+        --crimson-glow: rgba(255, 0, 0, 0.4);
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Poppins', sans-serif;
+        background: radial-gradient(circle at 50% 0%, #460f0f 0%, #050508 80%);
+        color: #e0e0e0;
+        min-height: 100vh;
+        overflow-x: hidden;
+        padding-top: 20px;
+    }
+
+    /* HEADER AVEC STATS */
+    .header {
+        text-align: center;
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+
+    .header h1 {
+        font-size: 2.5em;
+        font-weight: 800;
+        background: var(--primary-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 20px;
+        filter: drop-shadow(0 4px 5px rgba(255, 168, 0, 0.4));
+    }
+
+    .stats-container {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+    }
+
+    .stat-box {
+        background: var(--card-bg-base);
+        padding: 15px 30px;
+        border-radius: 15px;
+        border: 1px solid rgba(250, 250, 250, 0.3);
+        min-width: 120px;
+    }
+
+    .stat-number {
+        font-size: 2em;
+        font-weight: 800;
+        background: var(--primary-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .stat-label {
+        font-size: 0.85em;
+        color: #b0b0c0;
+        margin-top: 5px;
+    }
+
+    /* BARRE DE RECHERCHE */
+    .search-container {
+        max-width: 500px;
+        margin: 0 auto 30px;
+        padding: 0 20px;
+    }
+
+    .search-box {
+        position: relative;
+        width: 100%;
+    }
+
+    .search-box input {
+        width: 100%;
+        padding: 15px 50px 15px 20px;
+        background: var(--card-bg-base);
+        border: 1px solid rgba(250, 250, 250, 0.3);
+        border-radius: 50px;
+        color: #e0e0e0;
+        font-size: 1em;
+        font-family: 'Poppins', sans-serif;
+        transition: all 0.3s ease;
+    }
+
+    .search-box input:focus {
+        outline: none;
+        border-color: #ff9f43;
+        box-shadow: 0 0 20px var(--avatar-glow-color);
+    }
+
+    .search-box::after {
+        content: "🔍";
+        position: absolute;
+        right: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 1.2em;
+    }
+
+    /* FILTRES PAR MOIS */
+    .filters-container {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        flex-wrap: wrap;
+        padding: 0 20px 20px;
+    }
+
+    .month-filter {
+        padding: 8px 16px;
+        background: var(--card-bg-base);
+        border: 1px solid rgba(250, 250, 250, 0.3);
+        border-radius: 20px;
+        color: #b0b0c0;
+        font-size: 0.85em;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .month-filter:hover,
+    .month-filter.active {
+        background: var(--primary-gradient);
+        color: white;
+        border-color: transparent;
+        transform: translateY(-2px);
+    }
+
+    /* CONTAINER */
+    #users-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 30px;
+        padding: 30px;
+    }
+
+    /* CARTE UTILISATEUR */
+    .user-container {
+        width: 280px;
+        min-height: 450px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        text-align: center;
+        background: radial-gradient(circle at 1px 1px, var(--card-bg-base) 1px, transparent 0) var(--card-bg-base), 
+                    linear-gradient(rgba(20, 18, 25, 0.95), rgba(20, 18, 25, 0.95));
+        background-size: 4px 4px, 100% 100%;
+        padding: 30px 20px;
+        border-radius: 24px;
+        border: 1px solid rgba(250, 250, 250, 0.521);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+        position: relative;
+        z-index: 1;
+        transition: all 0.3s ease;
+    }
+
+    .user-container:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.8), 
+                    0 0 25px var(--avatar-glow-color), 
+                    0 0 50px var(--crimson-glow);
+        border-color: #ff9f43;
+    }
+
+    /* BADGE PROXIMITÉ */
+    .proximity-badge {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        padding: 6px 12px;
+        border-radius: 15px;
+        font-size: 0.7em;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .badge-today {
+        background: linear-gradient(135deg, #ff0000, #ff6b00);
+        color: white;
+        animation: badgePulse 1.5s infinite;
+    }
+
+    .badge-week {
+        background: linear-gradient(135deg, #ffc800, #ff9f43);
+        color: white;
+    }
+
+    .badge-month {
+        background: rgba(255, 200, 0, 0.2);
+        color: #ffc800;
+        border: 1px solid #ffc800;
+    }
+
+    @keyframes badgePulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+    }
+
+    /* AVATAR */
+    .avatar {
+        width: 125px;
+        height: 125px;
+        border-radius: 50%;
+        border: 1px solid #ffffff;
+        box-shadow: 0 0 55px rgb(255, 0, 0);
+        margin-bottom: 15px;
+        display: block;
+    }
+
+    /* PSEUDO */
+    .user-container h1 {
+        width: 100%;
+        text-align: center;
+        font-size: 1.8em;
+        margin: 10px 0;
+        font-weight: 800;
+        background: var(--primary-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        filter: drop-shadow(0 4px 5px rgba(255, 168, 0, 0.4)) drop-shadow(0 0 2px rgba(255, 0, 0, 0.8));
+    }
+
+    /* DATE DE NAISSANCE */
+    .birth-date {
+        font-size: 0.9em;
+        color: #b0b0c0;
+        margin-bottom: 5px;
+    }
+
+    /* ÂGE */
+    .age {
+        font-size: 15px;
+        font-weight: 700;
+        color: #f7e39e;
+        margin: 10px 0;
+    }
+
+    /* SIGNE ASTROLOGIQUE */
+    .zodiac {
+        font-size: 1.5em;
+        margin: 10px 0;
+    }
+
+    /* TITRE SECTION */
+    .user-container h2 {
+        width: 100%;
+        text-align: center;
+        font-weight: 500;
+        color: #b0b0c0;
+        font-size: 0.95em;
+        margin: 15px 0 10px;
+    }
+
+    /* COMPTE À REBOURS */
+    .birthday-countdown {
+        font-size: 0.95em;
+        font-weight: 700;
+        text-align: center;
+        width: 100%;
+        background: linear-gradient(to right, #ff0000, #eeff00);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        padding: 10px;
+    }
+
+    /* ANIMATION ANNIVERSAIRE */
+    .user-container.birthday {
+        border: 2px solid #ffc800;
+        animation: borderPulse 1s infinite ease-in-out;
+        filter: drop-shadow(0 0 20px rgba(255, 100, 0, 0.9));
+    }
+
+    @keyframes borderPulse {
+        0% { box-shadow: 0 0 15px rgba(255, 168, 0, 0.3); }
+        50% { box-shadow: 0 0 30px rgba(255, 0, 0, 0.6), 0 0 50px rgba(255, 168, 0, 0.4); }
+        100% { box-shadow: 0 0 15px rgba(255, 168, 0, 0.3); }
+    }
+
+    /* CONFETTIS */
+    .confetti {
+        position: fixed;
+        top: -50px;
+        z-index: -1;
+        opacity: 0.9;
+        animation: fall 4s linear infinite;
+    }
+
+    @keyframes fall {
+        100% { transform: translateY(100vh); opacity: 0; }
+    }
+
+    @media (max-width: 768px) {
+        .header h1 { font-size: 1.8em; }
+        .stats-container { gap: 10px; }
+        .user-container { width: 100%; max-width: 320px; }
+    }
+  </style>
 </head>
 <body>
+  <div class="header">
+    <h1>C35 Anniversaire</h1>
+    <div class="stats-container">
+      <div class="stat-box">
+        <div class="stat-number" id="total-count">0</div>
+        <div class="stat-label">Personnes</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number" id="today-count">0</div>
+        <div class="stat-label">Aujourd'hui</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number" id="week-count">0</div>
+        <div class="stat-label">Cette semaine</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="search-container">
+    <div class="search-box">
+      <input type="text" id="search-input" placeholder="Rechercher une personne...">
+    </div>
+  </div>
+
+  <div class="filters-container">
+    <button class="month-filter active" data-month="all">Tous</button>
+    <button class="month-filter" data-month="0">Janvier</button>
+    <button class="month-filter" data-month="1">Février</button>
+    <button class="month-filter" data-month="2">Mars</button>
+    <button class="month-filter" data-month="3">Avril</button>
+    <button class="month-filter" data-month="4">Mai</button>
+    <button class="month-filter" data-month="5">Juin</button>
+    <button class="month-filter" data-month="6">Juillet</button>
+    <button class="month-filter" data-month="7">Août</button>
+    <button class="month-filter" data-month="8">Septembre</button>
+    <button class="month-filter" data-month="9">Octobre</button>
+    <button class="month-filter" data-month="10">Novembre</button>
+    <button class="month-filter" data-month="11">Décembre</button>
+  </div>
+
   <div id="users-container"></div>
-  <script src="script.js"></script>
+
+  <script>
+    const users = [
+      { pseudo: "TEST", avatar: "https://cdn.discordapp.com/attachments/1221541965460668498/1444351068610891984/1c1de053ad4e984bdd23e4bcc2829090.png?ex=692c6441&is=692b12c1&hm=3051ada44a6084e25131eb1b433d139f476dc5381a89b7eec0ad290c807f39dd&", birthday: { day: 29, month: 10, hour:0, minute:0, second:0, year:2002 } },
+      { pseudo: "Lilian B", avatar: "https://cdn.discordapp.com/attachments/1221541965460668498/1444351068610891984/1c1de053ad4e984bdd23e4bcc2829090.png?ex=692c6441&is=692b12c1&hm=3051ada44a6084e25131eb1b433d139f476dc5381a89b7eec0ad290c807f39dd&", birthday: { day: 21, month: 10, hour:0, minute:0, second:0, year:2002 } },
+      { pseudo: "MickaeL C", avatar: "https://cdn.discordapp.com/attachments/1221541965460668498/1444350485917339800/dd7ecadc4448976b4beecef1bf0d678b.png?ex=692c63b6&is=692b1236&hm=b6d050af2b6e2aafab508af08809e93caac94b734cab53d8664df6ff0132ceae&", birthday: { day: 9, month: 11, hour:0, minute:0, second:0, year:1992 } },
+      { pseudo: "Tracy G", avatar: "https://cdn.discordapp.com/attachments/1221541965460668498/1444350642981306500/64d8437e21236d3750e5b7e877b8b54a.png?ex=692c63dc&is=692b125c&hm=4d5a7af4de18e3267a90550bead01dd334bd4e50bd74f43ef21accb36e779b06&", birthday: { day: 20, month: 0, hour:0, minute:0, second:0, year:1993 } },
+      { pseudo: "Even C", avatar: "https://cdn.discordapp.com/attachments/1221541965460668498/1444351068610891984/1c1de053ad4e984bdd23e4bcc2829090.png?ex=692c6441&is=692b12c1&hm=3051ada44a6084e25131eb1b433d139f476dc5381a89b7eec0ad290c807f39dd&", birthday: { day: 12, month: 1, hour:0, minute:0, second:0, year:2002 } },
+      { pseudo: "Jean L", avatar: "https://cdn.discordapp.com/attachments/1221541965460668498/1444350706273358026/8980264cb95c56c20d9b9d0ae8ffa345.png?ex=692c63eb&is=692b126b&hm=83a4ce67c940de2b4edf03191b0a4fde350be0539c0dfd85d25680d34b4e3b50&", birthday: { day: 20, month: 1, hour:0, minute:0, second:0, year:1980 } },
+      { pseudo: "Pierrick M", avatar: "https://cdn.discordapp.com/attachments/1221541965460668498/1444351068610891984/1c1de053ad4e984bdd23e4bcc2829090.png?ex=692c6441&is=692b12c1&hm=3051ada44a6084e25131eb1b433d139f476dc5381a89b7eec0ad290c807f39dd&", birthday: { day: 4, month: 2, hour:0, minute:0, second:0, year:1991 } },
+      { pseudo: "Nicolas D", avatar: "https://cdn.discordapp.com/attachments/1221541965460668498/1444351068610891984/1c1de053ad4e984bdd23e4bcc2829090.png?ex=692c6441&is=692b12c1&hm=3051ada44a6084e25131eb1b433d139f476dc5381a89b7eec0ad290c807f39dd&", birthday: { day: 9, month: 2, hour:0, minute:0, second:0, year:1991 } },
+      { pseudo: "Zoahoui Z", avatar: "https://cdn.discordapp.com/attachments/1221541965460668498/1444351068610891984/1c1de053ad4e984bdd23e4bcc2829090.png?ex=692c6441&is=692b12c1&hm=3051ada44a6084e25131eb1b433d139f476dc5381a89b7eec0ad290c807f39dd&", birthday: { day: 16, month: 2, hour:0, minute:0, second:0, year:1971 } },
+      { pseudo: "Frédéric N", avatar: "https://cdn.discordapp.com/attachments/1221541965460668498/1444351068610891984/1c1de053ad4e984bdd23e4bcc2829090.png?ex=692c6441&is=692b12c1&hm=3051ada44a6084e25131eb1b433d139f476dc5381a89b7eec0ad290c807f39dd&", birthday: { day: 29, month: 3, hour:0, minute:0, second:0, year:1977 } },
+      { pseudo: "Nadejki C", avatar: "https://cdn.discordapp.com/attachments/1221541965460668498/1444351068610891984/1c1de053ad4e984bdd23e4bcc2829090.png?ex=692c6441&is=692b12c1&hm=3051ada44a6084e25131eb1b433d139f476dc5381a89b7eec0ad290c807f39dd&", birthday: { day: 28, month: 5, hour:0, minute:0, second:0, year:1985 } },
+      { pseudo: "David D", avatar: "https://cdn.discordapp.com/attachments/1221541965460668498/1444350706273358026/8980264cb95c56c20d9b9d0ae8ffa345.png?ex=692c63eb&is=692b126b&hm=83a4ce67c940de2b4edf03191b0a4fde350be0539c0dfd85d25680d34b4e3b50&", birthday: { day: 1, month: 6, hour:0, minute:0, second:0, year:1985 } },
+      { pseudo: "Christophe DB", avatar: "https://cdn.discordapp.com/attachments/1221541965460668498/1444351068610891984/1c1de053ad4e984bdd23e4bcc2829090.png?ex=692c6441&is=692b12c1&hm=3051ada44a6084e25131eb1b433d139f476dc5381a89b7eec0ad290c807f39dd&", birthday: { day: 3, month: 6, hour:0, minute:0, second:0, year:1979 } },
+      { pseudo: "Abdelhak H", avatar: "https://cdn.discordapp.com/attachments/1221541965460668498/1444351068610891984/1c1de053ad4e984bdd23e4bcc2829090.png?ex=692c6441&is=692b12c1&hm=3051ada44a6084e25131eb1b433d139f476dc5381a89b7eec0ad290c807f39dd&", birthday: { day: 9, month: 6, hour:0, minute:0, second:0, year:1980 } },
+      { pseudo: "Thomas C", avatar: "https://cdn.discordapp.com/attachments/1221541965460668498/1444351068610891984/1c1de053ad4e984bdd23e4bcc2829090.png?ex=692c6441&is=692b12c1&hm=3051ada44a6084e25131eb1b433d139f476dc5381a89b7eec0ad290c807f39dd&", birthday: { day: 18, month: 7, hour:0, minute:0, second:0, year:2002 } },
+      { pseudo: "Mathieu A", avatar: "https://cdn.discordapp.com/attachments/1221541965460668498/1444351068610891984/1c1de053ad4e984bdd23e4bcc2829090.png?ex=692c6441&is=692b12c1&hm=3051ada44a6084e25131eb1b433d139f476dc5381a89b7eec0ad290c807f39dd&", birthday: { day: 25, month: 8, hour:0, minute:0, second:0, year:1990 } },
+      { pseudo: "Clément S", avatar: "https://cdn.discordapp.com/attachments/1221541965460668498/1444350706273358026/8980264cb95c56c20d9b9d0ae8ffa345.png?ex=692c63eb&is=692b126b&hm=83a4ce67c940de2b4edf03191b0a4fde350be0539c0dfd85d25680d34b4e3b50&", birthday: { day: 13, month: 10, hour:0, minute:0, second:0, year:1987 } },
+      { pseudo: "Lorenzo M", avatar: "https://cdn.discordapp.com/attachments/1221541965460668498/1444351068610891984/1c1de053ad4e984bdd23e4bcc2829090.png?ex=692c6441&is=692b12c1&hm=3051ada44a6084e25131eb1b433d139f476dc5381a89b7eec0ad290c807f39dd&", birthday: { day: 27, month: 8, hour:0, minute:0, second:0, year:2007 } },
+      { pseudo: "Alexia B", avatar: "https://cdn.discordapp.com/attachments/1221541965460668498/1444351068610891984/1c1de053ad4e984bdd23e4bcc2829090.png?ex=692c6441&is=692b12c1&hm=3051ada44a6084e25131eb1b433d139f476dc5381a89b7eec0ad290c807f39dd&", birthday: { day: 11, month: 8, hour:0, minute:0, second:0, year:2002 } },
+      { pseudo: "Edgar F", avatar: "https://cdn.discordapp.com/attachments/1221541965460668498/1444350706273358026/8980264cb95c56c20d9b9d0ae8ffa345.png?ex=692c63eb&is=692b126b&hm=83a4ce67c940de2b4edf03191b0a4fde350be0539c0dfd85d25680d34b4e3b50&", birthday: { day: 21, month: 1, hour:0, minute:0, second:0, year:1992 } },
+    ];
+
+    // Confettis
+    const emojis = ['🎉','✨','🥳','🎊','🍀','🌟'];
+    const confettiCount = 40;
+    for(let i=0;i<confettiCount;i++){
+      const div = document.createElement('div');
+      div.className = 'confetti';
+      div.style.left = Math.random()*100+'vw';
+      div.style.fontSize = (12 + Math.random()*18) + 'px';
+      div.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+      div.style.animationDuration = (3 + Math.random()*5)+'s';
+      div.style.setProperty("--round", Math.random() > 0.5 ? 1 : 0);
+      document.body.appendChild(div);
+    }
+
+    // Fonction signe astrologique
+    function getZodiacSign(day, month) {
+      const signs = [
+        {name: "♑", end: [1, 19]}, {name: "♒", end: [2, 18]}, {name: "♓", end: [3, 20]},
+        {name: "♈", end: [4, 19]}, {name: "♉", end: [5, 20]}, {name: "♊", end: [6, 20]},
+        {name: "♋", end: [7, 22]}, {name: "♌", end: [8, 22]}, {name: "♍", end: [9, 22]},
+        {name: "♎", end: [10, 22]}, {name: "♏", end: [11, 21]}, {name: "♐", end: [12, 21]},
+        {name: "♑", end: [12, 31]}
+      ];
+      for (let sign of signs) {
+        if (month < sign.end[0] || (month === sign.end[0] && day <= sign.end[1])) {
+          return sign.name;
+        }
+      }
+      return signs[0].name;
+    }
+
+    function timeUntilBirthday(birthday){
+      const now = new Date();
+      const parisNow = new Date(now.toLocaleString("en-US",{timeZone:"Europe/Paris"}));
+      let nextBirthday = new Date(parisNow.getFullYear(), birthday.month, birthday.day, 0, 0, 0);
+      if(parisNow.getDate() === birthday.day && parisNow.getMonth() === birthday.month) return 0;
+      if(parisNow > nextBirthday) nextBirthday.setFullYear(nextBirthday.getFullYear()+1);
+      return nextBirthday - parisNow;
+    }
+
+    users.sort((a,b)=>timeUntilBirthday(a.birthday)-timeUntilBirthday(b.birthday));
+
+    const container = document.getElementById("users-container");
+    const monthNames = ["Janvier","Février","Mars","Avril","Mai","Juin","Juillet","Août","Septembre","Octobre","Novembre","Décembre"];
+
+    users.forEach((user, index) => {
+      const div = document.createElement("div");
+      div.className = "user-container";
+      div.dataset.name = user.pseudo.toLowerCase();
+      div.dataset.month = user.birthday.month;
+
+      const b = user.birthday;
+      const now = new Date();
+      const parisNow = new Date(now.toLocaleString("en-US", { timeZone: "Europe/Paris" }));
+      
+      const daysUntil = Math.floor(timeUntilBirthday(b) / (1000 * 60 * 60 * 24));
+      let badge = '';
+      if (daysUntil === 0) badge = '<div class="proximity-badge badge-today">AUJOURD\'HUI 🎉</div>';
+      else if (daysUntil <= 7) badge = '<div class="proximity-badge badge-week">Dans ' + daysUntil + 'j</div>';
+      else if (daysUntil <= 30) badge = '<div class="proximity-badge badge-month">Ce mois</div>';
+
+      const birthDateHtml = `<div class="birth-date">${b.day} ${monthNames[b.month] || ''} ${b.year || 'X'}</div>`;
+      
+      let ageTextHtml = '';
+      if (b.year) {
+        let ageBefore = parisNow.getFullYear() - b.year;
+        if (parisNow.getMonth() < b.month || (parisNow.getMonth() === b.month && parisNow.getDate() < b.day)) {
+          ageBefore--;
+        }
+        let ageAfter = ageBefore + 1;
+        ageTextHtml = `<p class="age">${ageBefore} ans -> ${ageAfter} ans</p>`;
+      } else {
+        ageTextHtml = `<p class="age">X ans → X ans</p>`;
+      }
+
+      const zodiac = getZodiacSign(b.day, b.month + 1);
+
+      div.innerHTML = `
+        ${badge}
+        <img id="avatar${index}" class="avatar" src="${user.avatar}" alt="Avatar"/>
+        <h1 id="username${index}">${user.pseudo}</h1>
+        ${birthDateHtml}
+        <div class="zodiac">${zodiac}</div>
+        ${ageTextHtml}
+        <h2>Prochain anniversaire</h2>
+        <div id="birthday-countdown${index}" class="birthday-countdown">0 jours 0 h 0 min 0 s</div>
+      `;
+      container.appendChild(div);
+    });
+
+    function updateCountdowns(){
+      const now=new Date();
+      const parisNow=new Date(now.toLocaleString("en-US",{timeZone:"Europe/Paris"}));
+      let todayCount = 0;
+      let weekCount = 0;
+
+      users.forEach((user,index)=>{
+        const b = user.birthday;
+        const countdown = document.getElementById(`birthday-countdown${index}`);
+        const ageElem = document.querySelectorAll('.age')[index];
+        const h2 = countdown.previousElementSibling;
+        const userBox = document.getElementById(`avatar${index}`).parentElement;
+
+        if(parisNow.getDate() === b.day && parisNow.getMonth() === b.month){
+          todayCount++;
+          if(h2) h2.style.visibility='hidden';
+          if(countdown) countdown.textContent="Joyeux anniversaire 🎉";
+          if(ageElem && b.year){
+            ageElem.textContent = `Fête son ${parisNow.getFullYear()-b.year}ème anniversaire 🎉`;
+          }
+          userBox.classList.add('birthday');
+          return;
+        } else {
+          userBox.classList.remove('birthday');
+        }
+
+        let nextBirthday=new Date(parisNow.getFullYear(),b.month,b.day,0,0,0);
+        if(parisNow>nextBirthday) nextBirthday.setFullYear(nextBirthday.getFullYear()+1);
+        const diff=nextBirthday-parisNow;
+        const totalSeconds=Math.floor(diff/1000);
+        const days=Math.floor(totalSeconds/86400);
+        
+        if(days <= 7) weekCount++;
+        
+        const hours=Math.floor(totalSeconds/3600)%24;
+        const minutes=Math.floor(totalSeconds/60)%60;
+        const seconds=totalSeconds%60;
+
+        if(countdown) countdown.textContent=`${days} jours ${hours} h ${minutes} min ${seconds} s`;
+      });
+
+      document.getElementById('total-count').textContent = users.length;
+      document.getElementById('today-count').textContent = todayCount;
+      document.getElementById('week-count').textContent = weekCount;
+    }
+
+    // Recherche
+    document.getElementById('search-input').addEventListener('input', function(e) {
+      const search = e.target.value.toLowerCase();
+      document.querySelectorAll('.user-container').forEach(card => {
+        const name = card.dataset.name;
+        const monthFilter = document.querySelector('.month-filter.active').dataset.month;
+        const matchesSearch = name.includes(search);
+        const matchesMonth = monthFilter === 'all' || card.dataset.month === monthFilter;
+        card.style.display = (matchesSearch && matchesMonth) ? 'flex' : 'none';
+      });
+    });
+
+    // Filtres mois
+    document.querySelectorAll('.month-filter').forEach(btn => {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('.month-filter').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        
+        const selectedMonth = this.dataset.month;
+        const searchValue = document.getElementById('search-input').value.toLowerCase();
+        
+        document.querySelectorAll('.user-container').forEach(card => {
+          const matchesMonth = selectedMonth === 'all' || card.dataset.month === selectedMonth;
+          const matchesSearch = card.dataset.name.includes(searchValue);
+          card.style.display = (matchesMonth && matchesSearch) ? 'flex' : 'none';
+        });
+      });
+    });
+
+    updateCountdowns();
+    setInterval(updateCountdowns,1000);
+  </script>
 </body>
 </html>
