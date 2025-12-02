@@ -606,8 +606,8 @@ if (isToday) {
   badge = '<div class="proximity-badge badge-today">AUJOURD\'HUI 🎉</div>';
 } else if (hoursUntil < 24) {
   badge = '<div class="proximity-badge badge-today">Dans quelques heures ⏰</div>';
-} else if (daysUntil <= 7) {
-  badge = '<div class="proximity-badge badge-week">Dans ' + daysUntil + 'j et quelques</div>';
+} else if (daysUntil < 7) {
+  badge = '<div class="proximity-badge badge-week">Dans ' + daysUntil + 'j</div>';
 } else if (daysUntil <= 30) {
   badge = '<div class="proximity-badge badge-month">Ce mois</div>';
 }
@@ -782,6 +782,7 @@ document.querySelectorAll('.sort-btn').forEach(btn => {
   </script>
 </body>
 </html>
+
 
 
 
