@@ -609,7 +609,7 @@ if (isToday) {
 } else if (daysUntil < 7) {
   badge = '<div class="proximity-badge badge-week">Dans ' + daysUntil + 'j et quelques</div>';
 } else if (daysUntil <= 30) {
-  badge = '<div class="proximity-badge badge-month">daysUntil + 'j et quelques</div>';
+  badge = '<div class="proximity-badge badge-month">'+ daysUntil + 'j et quelques</div>';
 }
 
       const birthDateHtml = `<div class="birth-date">${b.day} ${monthNames[b.month] || ''} ${b.year || 'X'}</div>`;
@@ -782,6 +782,7 @@ document.querySelectorAll('.sort-btn').forEach(btn => {
   </script>
 </body>
 </html>
+
 
 
 
