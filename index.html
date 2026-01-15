@@ -1,799 +1,1078 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>C35 Anniversaire</title>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap');
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎂 Anniversaires à Venir</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0d0d0d;
+            --bg-card: #1a1a1a;
+            --accent-red: #e50914;
+            --accent-red-light: #ff3d47;
+            --accent-purple: #b4a7d6;
+            --accent-gold: #c9a227;
+            --text-primary: #ffffff;
+            --text-secondary: #808080;
+            --glass: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+        }
 
-    /* VARIABLES */
-    :root {
-        --bg-deep: #050508;
-        --card-bg-base: #141219;
-        --primary-gradient: linear-gradient(135deg, #ff0000, #ffc800);
-        --avatar-glow-color: rgba(255, 168, 0, 0.6);
-        --crimson-glow: rgba(255, 0, 0, 0.4);
-    }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
 
-    body {
-        font-family: 'Poppins', sans-serif;
-        background: radial-gradient(circle at 50% 0%, #460f0f 0%, #050508 80%);
-        color: #e0e0e0;
-        min-height: 100vh;
-        overflow-x: hidden;
-        padding-top: 20px;
-    }
+        #confetti-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1000;
+        }
 
-    /* HEADER AVEC STATS */
-    .header {
-        text-align: center;
-        padding: 20px;
-        margin-bottom: 20px;
-    }
+        .background-effects {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
 
-    .header h1 {
-        font-size: 2.5em;
-        font-weight: 800;
-        background: var(--primary-gradient);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        margin-bottom: 20px;
-        filter: drop-shadow(0 4px 5px rgba(255, 168, 0, 0.4));
-    }
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(150px);
+            opacity: 0.3;
+            animation: float 25s ease-in-out infinite;
+        }
 
-    .stats-container {
-        display: flex;
-        justify-content: center;
-        gap: 20px;
-        flex-wrap: wrap;
-        margin-bottom: 20px;
-    }
+        .orb-1 {
+            width: 600px;
+            height: 600px;
+            background: #e50914;
+            top: -300px;
+            right: -200px;
+            animation-delay: 0s;
+        }
 
-    .stat-box {
-        background: var(--card-bg-base);
-        padding: 15px 30px;
-        border-radius: 15px;
-        border: 1px solid rgba(250, 250, 250, 0.3);
-        min-width: 120px;
-    }
+        .orb-2 {
+            width: 500px;
+            height: 500px;
+            background: #831010;
+            bottom: -200px;
+            left: -200px;
+            animation-delay: -8s;
+        }
 
-    .stat-number {
-        font-size: 2em;
-        font-weight: 800;
-        background: var(--primary-gradient);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-    }
+        .orb-3 {
+            width: 400px;
+            height: 400px;
+            background: #e50914;
+            top: 50%;
+            left: 50%;
+            opacity: 0.15;
+            animation-delay: -15s;
+        }
 
-    .stat-label {
-        font-size: 0.85em;
-        color: #b0b0c0;
-        margin-top: 5px;
-    }
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1) rotate(0deg); }
+            25% { transform: translate(60px, -40px) scale(1.1) rotate(5deg); }
+            50% { transform: translate(-40px, 60px) scale(0.95) rotate(-5deg); }
+            75% { transform: translate(-60px, -30px) scale(1.05) rotate(3deg); }
+        }
 
-    /* BARRE DE RECHERCHE */
-    .search-container {
-        max-width: 500px;
-        margin: 0 auto 30px;
-        padding: 0 20px;
-    }
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
 
-    .search-box {
-        position: relative;
-        width: 100%;
-    }
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+            animation: fadeInDown 1s ease-out;
+        }
 
-    .search-box input {
-        width: 100%;
-        padding: 15px 50px 15px 20px;
-        background: var(--card-bg-base);
-        border: 1px solid rgba(250, 250, 250, 0.3);
-        border-radius: 50px;
-        color: #e0e0e0;
-        font-size: 1em;
-        font-family: 'Poppins', sans-serif;
-        transition: all 0.3s ease;
-    }
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
-    .search-box input:focus {
-        outline: none;
-        border-color: #ff9f43;
-        box-shadow: 0 0 20px var(--avatar-glow-color);
-    }
+        .title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            color: #ffffff;
+            margin-bottom: 10px;
+            letter-spacing: -1px;
+            text-shadow: 0 0 40px rgba(229, 9, 20, 0.5);
+        }
 
-    .search-box::after {
-        content: "🔍";
-        position: absolute;
-        right: 20px;
-        top: 50%;
-        transform: translateY(-50%);
-        font-size: 1.2em;
-    }
+        .subtitle {
+            color: var(--text-secondary);
+            font-weight: 400;
+            font-size: 1rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+        }
 
-    /* FILTRES PAR MOIS */
-    .filters-container {
-        display: flex;
-        justify-content: center;
-        gap: 10px;
-        flex-wrap: wrap;
-        padding: 0 20px 20px;
-    }
+        .stats-section {
+            margin-bottom: 50px;
+        }
 
-    /* BOUTONS DE TRI */
-.sort-container {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    flex-wrap: wrap;
-    padding: 0 20px 15px;
-}
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
 
-.sort-btn {
-    padding: 8px 16px;
-    background: var(--card-bg-base);
-    border: 1px solid rgba(250, 250, 250, 0.3);
-    border-radius: 20px;
-    color: #b0b0c0;
-    font-size: 0.85em;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-family: 'Poppins', sans-serif;
-}
+        .stat-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
 
-.sort-btn:hover,
-.sort-btn.active {
-    background: var(--primary-gradient);
-    color: white;
-    /* On garde la bordure pour ne pas changer la taille du bouton, mais on la rend transparente */
-    border: 1px solid transparent; 
-    /* LE FIX EST ICI : On oblige le fond à aller jusque sous la bordure */
-    background-origin: border-box; 
-    background-clip: padding-box, border-box;
-    transform: translateY(-2px);
-}
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent-red), transparent);
+        }
 
-    .month-filter {
-        padding: 8px 16px;
-        background: var(--card-bg-base);
-        border: 1px solid rgba(250, 250, 250, 0.3);
-        border-radius: 20px;
-        color: #b0b0c0;
-        font-size: 0.85em;
-        cursor: pointer;
-        transition: all 0.3s ease;
-    }
+        .stat-card:hover {
+            transform: translateY(-3px);
+            border-color: rgba(229, 9, 20, 0.3);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
 
-    .month-filter:hover,
-    .month-filter.active {
-        background: var(--primary-gradient);
-        color: white;
-border: 1px solid transparent;
-    /* LE FIX EST ICI */
-    background-origin: border-box;
-    background-clip: padding-box, border-box;
-    transform: translateY(-2px);
-    }
+        .stat-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
 
-    /* CONTAINER */
-    #users-container {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 30px;
-        padding: 30px;
-    }
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--accent-red);
+            line-height: 1;
+            margin-bottom: 8px;
+        }
 
-    /* CARTE UTILISATEUR */
-    .user-container {
-        width: 280px;
-        min-height: 450px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: space-between;
-        text-align: center;
-        background: radial-gradient(circle at 1px 1px, var(--card-bg-base) 1px, transparent 0) var(--card-bg-base), 
-                    linear-gradient(rgba(20, 18, 25, 0.95), rgba(20, 18, 25, 0.95));
-        background-size: 4px 4px, 100% 100%;
-        padding: 30px 20px;
-        border-radius: 24px;
-        border: 1px solid rgba(250, 250, 250, 0.521);
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
-        position: relative;
-        z-index: 1;
-        transition: all 0.3s ease;
-    }
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
 
-    .user-container:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.8), 
-                    0 0 25px var(--avatar-glow-color), 
-                    0 0 50px var(--crimson-glow);
-        border-color: #ff9f43;
-    }
+        .stat-sublabel {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-top: 5px;
+            opacity: 0.7;
+        }
 
-    /* BADGE PROXIMITÉ */
-    .proximity-badge {
-        position: absolute;
-        z-index: 1000;
-        top: 15px;
-        right: 15px;
-        padding: 6px 12px;
-        border-radius: 15px;
-        font-size: 0.7em;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-    }
+        .today-section {
+            margin-bottom: 50px;
+        }
 
-    .badge-today {
-        background: linear-gradient(135deg, #ff0000, #ff6b00);
-        color: white;
-        animation: badgePulse 1.5s infinite;
-    }
+        .section-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #ffffff;
+        }
 
-    .badge-week {
-        background: linear-gradient(135deg, #ffc800, #ff9f43);
-        color: white;
-    }
+        .section-title .emoji {
+            font-size: 1.3rem;
+        }
 
-    .badge-month {
-        background: rgba(255, 200, 0, 0.2);
-        color: #ffc800;
-        border: 1px solid #ffc800;
-    }
+        .birthday-today {
+            background: linear-gradient(135deg, rgba(229, 9, 20, 0.2), rgba(131, 16, 16, 0.15), rgba(0, 0, 0, 0.3));
+            border: 1px solid rgba(229, 9, 20, 0.5);
+            border-radius: 8px;
+            padding: 30px;
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            animation: pulse-glow 3s ease-in-out infinite, fadeInUp 0.8s ease-out;
+            position: relative;
+            overflow: hidden;
+        }
 
-    @keyframes badgePulse {
-        0%, 100% { transform: scale(1); }
-        50% { transform: scale(1.05); }
-    }
+        .birthday-today::before {
+            content: '🎉';
+            position: absolute;
+            font-size: 10rem;
+            opacity: 0.05;
+            right: -30px;
+            top: -30px;
+        }
 
-    /* AVATAR */
-    .avatar {
-        width: 125px;
-        height: 125px;
-        border-radius: 50%;
-        border: 1px solid #ffffff;
-        box-shadow: 0 0 55px rgb(255, 0, 0);
-        margin-bottom: 15px;
-        display: block;
-    }
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 30px rgba(229, 9, 20, 0.2); }
+            50% { box-shadow: 0 0 50px rgba(229, 9, 20, 0.4); }
+        }
 
-          /* AVATAR FALLBACK avec initiales */
-      .avatar-fallback {
-          width: 125px;
-          height: 125px;
-          border-radius: 50%;
-          border: 1px solid #ffffff;
-          box-shadow: 0 0 55px rgb(255, 0, 0);
-          margin-bottom: 15px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-size: 2.5em;
-          font-weight: 800;
-          background: var(--primary-gradient);
-          color: white;
-      }
+        .birthday-today .avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 8px;
+            object-fit: cover;
+            border: 2px solid var(--accent-red);
+            flex-shrink: 0;
+            box-shadow: 0 0 30px rgba(229, 9, 20, 0.4);
+        }
 
-    /* PSEUDO */
-    .user-container h1 {
-        width: 100%;
-        text-align: center;
-        font-size: 1.8em;
-        margin: 10px 0;
-        font-weight: 800;
-        background: var(--primary-gradient);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        filter: drop-shadow(0 4px 5px rgba(255, 168, 0, 0.4)) drop-shadow(0 0 2px rgba(255, 0, 0, 0.8));
-    }
+        .birthday-today .avatar-placeholder {
+            width: 100px;
+            height: 100px;
+            border-radius: 8px;
+            box-shadow: 0 0 30px rgba(229, 9, 20, 0.4);
+        }
 
-    /* DATE DE NAISSANCE */
-    .birth-date {
-        font-size: 0.9em;
-        color: #b0b0c0;
-        margin-bottom: 5px;
-    }
+        .birthday-today .info h3 {
+            font-size: 2rem;
+            margin-bottom: 5px;
+            color: #ffffff;
+            font-weight: 700;
+        }
 
-    /* ÂGE */
-    .age {
-        font-size: 15px;
-        font-weight: 700;
-        color: #f7e39e;
-        margin: 10px 0;
-    }
+        .birthday-today .info .today-main {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            font-weight: 400;
+            margin-bottom: 10px;
+        }
 
-    /* TITRE SECTION */
-    .user-container h2 {
-        width: 100%;
-        text-align: center;
-        font-weight: 500;
-        color: #b0b0c0;
-        font-size: 0.95em;
-        margin: 10px 0 -10px;
-    }
+        .birthday-today .info .age-highlight {
+            color: var(--accent-red);
+            font-weight: 700;
+            font-size: 1.3rem;
+        }
 
-    /* COMPTE À REBOURS */
-    .birthday-countdown {
-        font-size: 0.95em;
-        font-weight: 700;
-        text-align: center;
-        width: 100%;
-        background: linear-gradient(to right, #ff0000, #eeff00);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        padding: 10px;
-    }
+        .birthday-today .info .today-details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 8px;
+        }
 
-/* =========================================
-   NOUVEAU STYLE "JOUR J" (À REMPLACER/AJOUTER)
-   ========================================= */
+        .birthday-today .info .detail-item {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 5px 12px;
+            border-radius: 4px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
 
-/* La carte elle-même : Fond animé + Bordure RGB */
-.user-container.birthday {
-    background: linear-gradient(135deg, #2a0808, #1a1a2e);
-    position: relative;
-    z-index: 10;
-    /* Animation de bordure arc-en-ciel */
-    animation: partyBorder 3s linear infinite, cardFloat 3s ease-in-out infinite;
-    border: 2px solid transparent;
-}
+        .birthday-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 25px;
+        }
 
-/* L'avatar qui "bat" comme un cœur ou une enceinte */
-.user-container.birthday .avatar {
-    animation: avatarBeat 0.8s infinite alternate cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    box-shadow: 0 0 30px rgba(255, 255, 255, 0.8), 
-                0 0 60px #ff00de, 
-                0 0 90px #00ffff;
-    border-color: #fff;
-}
+        .birthday-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 25px;
+            display: flex;
+            gap: 20px;
+            transition: all 0.3s ease;
+            animation: fadeInUp 0.8s ease-out backwards;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
 
-/* Le texte "Joyeux Anniversaire" en arc-en-ciel */
-.user-container.birthday .birthday-countdown {
-    font-size: 1.2em;
-    font-weight: 900;
-    background: linear-gradient(90deg, #ff0000, #ffff00, #00ff00, #00ffff, #0000ff, #ff00ff, #ff0000);
-    background-size: 400%;
-    
-    /* === CORRECTION ICI === */
-    background-clip: text;         /* Version standard (pour le futur) */
-    -webkit-background-clip: text; /* Version actuelle (nécessaire pour Chrome/Safari) */
-    
-    -webkit-text-fill-color: transparent;
-    animation: rainbowText 5s linear infinite;
-    text-shadow: 0 0 10px rgba(255,255,255,0.3);
-}
+        .birthday-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-red), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
 
+        .birthday-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(229, 9, 20, 0.08), transparent 50%);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
 
+        .birthday-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            border-color: rgba(229, 9, 20, 0.5);
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.5), 0 0 30px rgba(229, 9, 20, 0.15);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03));
+        }
 
-/* === LES KEYFRAMES (ANIMATIONS) === */
+        .birthday-card:hover::before,
+        .birthday-card:hover::after {
+            opacity: 1;
+        }
 
-/* 1. Bordure RGB rotative */
-@keyframes partyBorder {
-    0% { 
-        box-shadow: 0 0 20px #ff0000, 0 0 40px #ff0000;
-        border-color: #ff0000;
-    }
-    20% { 
-        box-shadow: 0 0 20px #ffff00, 0 0 40px #ffff00;
-        border-color: #ffff00;
-    }
-    40% { 
-        box-shadow: 0 0 20px #00ff00, 0 0 40px #00ff00;
-        border-color: #00ff00;
-    }
-    60% { 
-        box-shadow: 0 0 20px #00ffff, 0 0 40px #00ffff;
-        border-color: #00ffff;
-    }
-    80% { 
-        box-shadow: 0 0 20px #ff00ff, 0 0 40px #ff00ff;
-        border-color: #ff00ff;
-    }
-    100% { 
-        box-shadow: 0 0 20px #ff0000, 0 0 40px #ff0000;
-        border-color: #ff0000;
-    }
-}
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
-/* 2. Avatar qui pulse */
-@keyframes avatarBeat {
-    0% { transform: scale(1); filter: brightness(1); }
-    100% { transform: scale(1.1); filter: brightness(1.3); }
-}
+        .avatar-container {
+            position: relative;
+            flex-shrink: 0;
+        }
 
-/* 3. Texte arc-en-ciel qui coule */
-@keyframes rainbowText {
-    0% { background-position: 0%; }
-    100% { background-position: 400%; }
-}
+        .avatar {
+            width: 75px;
+            height: 75px;
+            border-radius: 12px;
+            object-fit: cover;
+            border: none;
+            background: var(--bg-card);
+            transition: all 0.3s ease;
+        }
 
-/* 4. La carte qui flotte un peu plus haut */
-@keyframes cardFloat {
-    0%, 100% { transform: translateY(-10px); }
-    50% { transform: translateY(-20px); }
-}
+        .birthday-card:hover .avatar {
+            box-shadow: 0 0 20px rgba(229, 9, 20, 0.4);
+        }
 
-/* 5. Petit saut du titre */
-@keyframes textBounce {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-}
+        .avatar-placeholder {
+            width: 75px;
+            height: 75px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #e50914, #831010);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            font-weight: 700;
+            border: none;
+            transition: all 0.3s ease;
+        }
 
-    /* CONFETTIS */
-    .confetti {
-        position: fixed;
-        top: -50px;
-        z-index: -1;
-        opacity: 0.9;
-        animation: fall 4s linear infinite;
-    }
+        .card-content {
+            flex: 1;
+            min-width: 0;
+        }
 
-    @keyframes fall {
-        100% { transform: translateY(100vh); opacity: 0; }
-    }
+        .pseudo {
+            font-size: 1.35rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
 
-    @media (max-width: 768px) {
-        .header h1 { font-size: 1.8em; }
-        .stats-container { gap: 10px; }
-        .user-container { width: 100%; max-width: 320px; }
-    }
+        .birthday-date {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
 
+        .user-info {
+            margin-bottom: 15px;
+        }
 
-  </style>
+        .age-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 8px;
+        }
+
+        .current-age {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .arrow {
+            color: var(--accent-red);
+            font-weight: bold;
+            animation: pulse-arrow 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse-arrow {
+            0%, 100% { opacity: 0.5; transform: translateX(0); }
+            50% { opacity: 1; transform: translateX(3px); }
+        }
+
+        .upcoming-age {
+            background: var(--accent-red);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 700;
+        }
+
+        .age-badge {
+            background: var(--accent-red);
+            color: white;
+            padding: 3px 10px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+
+        .countdown {
+            display: flex;
+            gap: 8px;
+        }
+
+        .countdown-item {
+            text-align: center;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+            padding: 10px 8px;
+            border-radius: 8px;
+            min-width: 50px;
+            flex: 1;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .countdown-value {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #ffffff;
+            line-height: 1;
+        }
+
+        .countdown-label {
+            font-size: 0.65rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 5px;
+        }
+
+        .countdown-label {
+            font-size: 0.55rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 3px;
+        }
+
+        .no-birthdays {
+            text-align: center;
+            padding: 60px;
+            color: var(--text-secondary);
+        }
+
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            animation: twinkle 4s ease-in-out infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
+
+        @media (max-width: 600px) {
+            .birthday-card {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            .countdown {
+                justify-content: center;
+            }
+
+            .birthday-date {
+                justify-content: center;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div class="header">
-    <h1>C35 Anniversaire</h1>
-    <div class="stats-container">
-      <div class="stat-box">
-        <div class="stat-number" id="total-count">0</div>
-        <div class="stat-label">Personnes</div>
-      </div>
-      <div class="stat-box">
-        <div class="stat-number" id="today-count">0</div>
-        <div class="stat-label">🎂 Aujourd'hui</div>
-      </div>
-      <div class="stat-box">
-        <div class="stat-number" id="week-count">0</div>
-        <div class="stat-label">🎂 7J à venir</div>
-      </div>
-      <div class="stat-box">
-        <div class="stat-number" id="avg-age">0</div>
-        <div class="stat-label">Âge moyen</div>
-      </div>
+    <canvas id="confetti-canvas"></canvas>
+    
+    <div class="stars" id="stars"></div>
+    
+    <div class="background-effects">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
     </div>
-  </div>
 
-  <div class="search-container">
-    <div class="search-box">
-      <input type="text" id="search-input" placeholder="Rechercher une personne...">
+    <div class="container">
+        <header>
+            <h1 class="title">Anniversaires</h1>
+            <p class="subtitle">Ne manquez aucune célébration</p>
+        </header>
+
+        <div id="today-container"></div>
+
+        <section class="stats-section">
+            <h2 class="section-title">
+                <span class="emoji">📊</span>
+                Statistiques
+            </h2>
+            <div class="stats-grid" id="stats-grid"></div>
+        </section>
+
+        <section>
+            <h2 class="section-title">
+                <span class="emoji">📅</span>
+                Prochains anniversaires
+            </h2>
+            <div class="birthday-grid" id="birthday-grid"></div>
+        </section>
     </div>
-  </div>
 
-  <!-- NOUVEAU : Boutons de tri -->
-<div class="sort-container">
-  <button class="sort-btn active" data-sort="proximity">📅 Proximité</button>
-  <button class="sort-btn" data-sort="name">🔤 Nom (A-Z)</button>
-  <button class="sort-btn" data-sort="age">🎂 Âge</button>
-  <button class="sort-btn" data-sort="month">📆 Mois</button>
-</div>
+    <script>
+        // ============================================
+        // SYSTÈME DE CONFETTIS RÉALISTES (Canvas)
+        // ============================================
+        class Confetti {
+            constructor(canvas) {
+                this.canvas = canvas;
+                this.ctx = canvas.getContext('2d');
+                this.particles = [];
+                this.colors = [
+                    '#e50914', '#ff3d47', '#b20710', '#ffffff', '#cccccc', 
+                    '#ff6b6b', '#c9a227', '#ffd700', '#ff4444', '#ff8080'
+                ];
+                this.running = false;
+                
+                this.resize();
+                window.addEventListener('resize', () => this.resize());
+            }
 
-  <div class="filters-container">
-    <button class="month-filter active" data-month="all">Tous</button>
-    <button class="month-filter" data-month="0">Janvier</button>
-    <button class="month-filter" data-month="1">Février</button>
-    <button class="month-filter" data-month="2">Mars</button>
-    <button class="month-filter" data-month="3">Avril</button>
-    <button class="month-filter" data-month="4">Mai</button>
-    <button class="month-filter" data-month="5">Juin</button>
-    <button class="month-filter" data-month="6">Juillet</button>
-    <button class="month-filter" data-month="7">Août</button>
-    <button class="month-filter" data-month="8">Septembre</button>
-    <button class="month-filter" data-month="9">Octobre</button>
-    <button class="month-filter" data-month="10">Novembre</button>
-    <button class="month-filter" data-month="11">Décembre</button>
-  </div>
+            resize() {
+                this.canvas.width = window.innerWidth;
+                this.canvas.height = window.innerHeight;
+            }
 
-  <div id="users-container"></div>
+            createParticle(x, y, isExplosion = false) {
+                const color = this.colors[Math.floor(Math.random() * this.colors.length)];
+                const shapeType = Math.random();
+                let shape;
+                if (shapeType < 0.3) shape = 'square';
+                else if (shapeType < 0.5) shape = 'circle';
+                else if (shapeType < 0.8) shape = 'ribbon';
+                else shape = 'star';
+                
+                return {
+                    x: x !== undefined ? x : Math.random() * this.canvas.width,
+                    y: y !== undefined ? y : -20,
+                    width: Math.random() * 12 + 6,
+                    height: Math.random() * 8 + 4,
+                    color: color,
+                    shape: shape,
+                    rotation: Math.random() * 360,
+                    rotationSpeed: (Math.random() - 0.5) * 15,
+                    velocityX: isExplosion ? (Math.random() - 0.5) * 25 : (Math.random() - 0.5) * 4,
+                    velocityY: isExplosion ? Math.random() * -18 - 8 : Math.random() * 3 + 2,
+                    gravity: 0.12,
+                    drag: 0.99,
+                    opacity: 1,
+                    wobble: Math.random() * 10,
+                    wobbleSpeed: Math.random() * 0.15 + 0.05,
+                    scale: isExplosion ? Math.random() * 0.5 + 0.8 : 1,
+                    tilt: Math.random() * Math.PI
+                };
+            }
 
-  <script>
-    const users = [
-      { pseudo: "Lilian B", avatar: "chill.png", birthday: { day: 10, month: 10, hour:0, minute:0, second:0, year:2002 } },
-      { pseudo: "Laurent L", avatar: "classe.png", birthday: { day: 6, month:10, hour:0, minute:0, second:0, year:1977 } },
-      { pseudo: "MickaeL C", avatar: "classe.png", birthday: { day: 9, month: 11, hour:0, minute:0, second:0, year:1991 } },
-      { pseudo: "Tracy G", avatar: "venere.png", birthday: { day: 20, month: 0, hour:0, minute:0, second:0, year:1993 } },
-      { pseudo: "Even C", avatar: "chill.png", birthday: { day: 12, month: 1, hour:0, minute:0, second:0, year:2002 } },
-      { pseudo: "Jean L", avatar: "yeman.png", birthday: { day: 20, month: 1, hour:0, minute:0, second:0, year:1980 } },
-      { pseudo: "Pierrick M", avatar: "chill.png", birthday: { day: 4, month: 2, hour:0, minute:0, second:0, year:1991 } },
-      { pseudo: "Nicolas D", avatar: "chill.png", birthday: { day: 9, month: 2, hour:0, minute:0, second:0, year:1991 } },
-      { pseudo: "Zoahoui Z", avatar: "chill.png", birthday: { day: 16, month: 2, hour:0, minute:0, second:0, year:1971 } },
-      { pseudo: "Frédéric N", avatar: "chill.png", birthday: { day: 29, month: 3, hour:0, minute:0, second:0, year:1977 } },
-      { pseudo: "Nadejki C", avatar: "chill.png", birthday: { day: 28, month: 5, hour:0, minute:0, second:0, year:1985 } },
-      { pseudo: "David D", avatar: "yeman.png", birthday: { day: 1, month: 6, hour:0, minute:0, second:0, year:1985 } },
-      { pseudo: "Christophe DB", avatar: "chill.png", birthday: { day: 3, month: 6, hour:0, minute:0, second:0, year:1979 } },
-      { pseudo: "Abdelhak H", avatar: "chill.png", birthday: { day: 9, month: 6, hour:0, minute:0, second:0, year:1980 } },
-      { pseudo: "Thomas C", avatar: "chill.png", birthday: { day: 18, month: 7, hour:0, minute:0, second:0, year:2002 } },
-      { pseudo: "Mathieu A", avatar: "chill.png", birthday: { day: 25, month: 8, hour:0, minute:0, second:0, year:1990 } },
-      { pseudo: "Clément S", avatar: "yeman.png", birthday: { day: 13, month: 10, hour:0, minute:0, second:0, year:1987 } },
-      { pseudo: "Lorenzo M", avatar: "chill.png", birthday: { day: 27, month: 8, hour:0, minute:0, second:0, year:2007 } },
-      { pseudo: "Alexia B", avatar: "chill.png", birthday: { day: 11, month: 8, hour:0, minute:0, second:0, year:2002 } },
-      { pseudo: "Edgar F le SLS à couette", avatar: "yeman.png", birthday: { day: 21, month: 1, hour:0, minute:0, second:0, year:1992 } },
-    ];
+            drawParticle(p) {
+                this.ctx.save();
+                this.ctx.translate(p.x, p.y);
+                this.ctx.rotate(p.rotation * Math.PI / 180);
+                this.ctx.scale(p.scale, p.scale * Math.cos(p.tilt));
+                this.ctx.globalAlpha = p.opacity;
 
-    // Confettis optimisés - Actifs en permanence
-    const emojis = ['🎉','✨','🥳','🎊','🍀','🌟'];
+                this.ctx.fillStyle = p.color;
 
-    function createConfetti() {
-      const confettiCount = 45; // Réduit pour meilleures performances
-      for(let i = 0; i < confettiCount; i++){
-        const div = document.createElement('div');
-        div.className = 'confetti';
-        div.style.left = Math.random() * 100 + 'vw';
-        div.style.fontSize = (12 + Math.random() * 18) + 'px';
-        div.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-        const duration = 3 + Math.random() * 4;
-        div.style.animationDuration = duration + 's';
-        div.style.animationIterationCount = '1'; // Une seule fois
-        document.body.appendChild(div);
-        
-        // Détruire après animation
-        setTimeout(() => div.remove(), duration * 1000);
-      }
-    }
+                switch(p.shape) {
+                    case 'square':
+                        this.ctx.fillRect(-p.width / 2, -p.height / 2, p.width, p.height);
+                        break;
+                    case 'circle':
+                        this.ctx.beginPath();
+                        this.ctx.arc(0, 0, p.width / 2, 0, Math.PI * 2);
+                        this.ctx.fill();
+                        break;
+                    case 'ribbon':
+                        this.ctx.beginPath();
+                        this.ctx.moveTo(-p.width / 2, -p.height / 2);
+                        this.ctx.lineTo(p.width / 2, -p.height / 4);
+                        this.ctx.lineTo(p.width / 2, p.height / 2);
+                        this.ctx.lineTo(-p.width / 2, p.height / 4);
+                        this.ctx.closePath();
+                        this.ctx.fill();
+                        break;
+                    case 'star':
+                        this.drawStar(0, 0, 5, p.width / 2, p.width / 4);
+                        break;
+                }
 
-    // Démarrer les confettis en continu
-    createConfetti();
-    setInterval(createConfetti, 3000); // Nouvelles vagues toutes les 6s
+                this.ctx.restore();
+            }
 
+            drawStar(cx, cy, spikes, outerRadius, innerRadius) {
+                let rot = Math.PI / 2 * 3;
+                let step = Math.PI / spikes;
 
+                this.ctx.beginPath();
+                this.ctx.moveTo(cx, cy - outerRadius);
 
-function timeUntilBirthday(birthday){
-  const now = new Date();
-  const parisNow = new Date(now.toLocaleString("en-US",{timeZone:"Europe/Paris"}));
-  let nextBirthday = new Date(parisNow.getFullYear(), birthday.month, birthday.day, 0, 0, 0);
-  
-  // Si c'est aujourd'hui mais pas encore l'heure
-  if(parisNow.getDate() === birthday.day && parisNow.getMonth() === birthday.month) {
-    return 0;
-  }
-  
-  // Si la date est déjà passée cette année, passer à l'année prochaine
-  if(parisNow > nextBirthday) {
-    nextBirthday.setFullYear(nextBirthday.getFullYear()+1);
-  }
-   
-  return nextBirthday - parisNow;
-}
+                for (let i = 0; i < spikes; i++) {
+                    let x = cx + Math.cos(rot) * outerRadius;
+                    let y = cy + Math.sin(rot) * outerRadius;
+                    this.ctx.lineTo(x, y);
+                    rot += step;
 
-    users.sort((a,b)=>timeUntilBirthday(a.birthday)-timeUntilBirthday(b.birthday));
+                    x = cx + Math.cos(rot) * innerRadius;
+                    y = cy + Math.sin(rot) * innerRadius;
+                    this.ctx.lineTo(x, y);
+                    rot += step;
+                }
 
-    const container = document.getElementById("users-container");
-    const monthNames = ["Janvier","Février","Mars","Avril","Mai","Juin","Juillet","Août","Septembre","Octobre","Novembre","Décembre"];
+                this.ctx.lineTo(cx, cy - outerRadius);
+                this.ctx.closePath();
+                this.ctx.fill();
+            }
 
-    users.forEach((user, index) => {
-      const div = document.createElement("div");
-      div.className = "user-container";
-      div.dataset.name = user.pseudo.toLowerCase();
-      div.dataset.month = user.birthday.month;
+            updateParticle(p) {
+                p.velocityY += p.gravity;
+                p.velocityX *= p.drag;
+                p.velocityY *= p.drag;
 
-      const b = user.birthday;
-const now = new Date();
-const parisNow = new Date(now.toLocaleString("en-US", { timeZone: "Europe/Paris" }));
+                p.x += p.velocityX + Math.sin(p.wobble) * 2;
+                p.y += p.velocityY;
+                p.rotation += p.rotationSpeed;
+                p.wobble += p.wobbleSpeed;
+                p.tilt += 0.05;
 
-// Vérifier si c'est VRAIMENT aujourd'hui (même jour, même mois, même année)
-const isToday = parisNow.getDate() === b.day && parisNow.getMonth() === b.month;
+                if (p.y > this.canvas.height - 150) {
+                    p.opacity -= 0.015;
+                }
 
-const msUntil = timeUntilBirthday(b);
-const daysUntil = Math.floor(msUntil / (1000 * 60 * 60 * 24));
-const hoursUntil = Math.floor(msUntil / (1000 * 60 * 60));
+                return p.y < this.canvas.height + 50 && p.opacity > 0;
+            }
 
-let badge = '';
-if (isToday) {
-  badge = '<div class="proximity-badge badge-today">AUJOURD\'HUI 🎉</div>';
-} else if (hoursUntil < 24) {
-  badge = '<div class="proximity-badge badge-today">Dans quelques heures ⏰</div>';
-} else if (daysUntil < 7) {
-  badge = '<div class="proximity-badge badge-week">Moins de 7j</div>';
-} else if (daysUntil < 30) {
-  badge = '<div class="proximity-badge badge-month">Moins de 30j</div>';
-}
+            burst(x, y, count = 60) {
+                for (let i = 0; i < count; i++) {
+                    this.particles.push(this.createParticle(x, y, true));
+                }
+            }
 
-      const birthDateHtml = `<div class="birth-date">${b.day} ${monthNames[b.month] || ''} ${b.year || 'X'}</div>`;
-      
-      let ageTextHtml = '';
-if (b.year) {
-  let currentAge = parisNow.getFullYear() - b.year;
-  if (parisNow.getMonth() < b.month || (parisNow.getMonth() === b.month && parisNow.getDate() < b.day)) {
-    currentAge--;
-  }
-  ageTextHtml = `<p class="age">${currentAge} ans</p>`;
-} else {
-  ageTextHtml = `<p class="age">Âge inconnu</p>`;
-}
+            startContinuous() {
+                this.running = true;
+                this.continuousInterval = setInterval(() => {
+                    if (this.running && this.particles.length < 200) {
+                        // Ajouter des confettis depuis le haut
+                        this.particles.push(this.createParticle());
+                        if (Math.random() > 0.5) {
+                            this.particles.push(this.createParticle());
+                        }
+                    }
+                }, 80);
+            }
 
+            stop() {
+                this.running = false;
+                clearInterval(this.continuousInterval);
+                clearInterval(this.burstInterval);
+            }
 
-div.innerHTML = `
-  ${badge}
-  <img id="avatar${index}" class="avatar" src="${user.avatar}" alt="Avatar" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" style="display:block;"/>
-  <div class="avatar-fallback" style="display:none;">${user.pseudo.split(' ').map(n => n[0]).join('').toUpperCase()}</div>
-  <h1 id="username${index}">${user.pseudo}</h1>
-  ${birthDateHtml}
-  ${ageTextHtml}
-  <h2>Prochain anniversaire</h2>
-  <div id="birthday-countdown${index}" class="birthday-countdown">0 jours 0 h 0 min 0 s</div>
-`;
-      container.appendChild(div);
-    });
+            animate() {
+                this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-    function updateCountdowns(){
-  const now=new Date();
-  const parisNow=new Date(now.toLocaleString("en-US",{timeZone:"Europe/Paris"}));
-  let todayCount = 0;
-  let weekCount = 0;
+                this.particles = this.particles.filter(p => {
+                    this.drawParticle(p);
+                    return this.updateParticle(p);
+                });
 
-  users.forEach((user,index)=>{
-    const b = user.birthday;
-    const countdown = document.getElementById(`birthday-countdown${index}`);
-    const ageElem = document.querySelectorAll('.age')[index];
-    const h2 = countdown.previousElementSibling;
-    const userBox = document.getElementById(`avatar${index}`).parentElement;
+                requestAnimationFrame(() => this.animate());
+            }
 
-    if(parisNow.getDate() === b.day && parisNow.getMonth() === b.month){
-      todayCount++;
-      if(h2) h2.style.visibility='hidden';
-      if(countdown) countdown.textContent="Joyeux anniversaire 🎉";
-      if(ageElem && b.year){
-        ageElem.textContent = `Fête son ${parisNow.getFullYear()-b.year}ème anniversaire 🎉`;
-      }
-      userBox.classList.add('birthday');
-      return;
-    } else {
-      userBox.classList.remove('birthday');
-    }
+            start() {
+                this.animate();
+                this.startContinuous();
+                
+                // Explosions périodiques depuis les côtés
+                this.burstInterval = setInterval(() => {
+                    if (this.running) {
+                        const side = Math.random() > 0.5;
+                        const x = side ? this.canvas.width * 0.1 : this.canvas.width * 0.9;
+                        this.burst(x, this.canvas.height * 0.3, 40);
+                    }
+                }, 4000);
 
-    let nextBirthday=new Date(parisNow.getFullYear(),b.month,b.day,0,0,0);
-    if(parisNow>nextBirthday) nextBirthday.setFullYear(nextBirthday.getFullYear()+1);
-    const diff=nextBirthday-parisNow;
-    const totalSeconds=Math.floor(diff/1000);
-    const days=Math.floor(totalSeconds/86400);
-    
-    if(days <= 7) weekCount++;
-    
-    const hours=Math.floor(totalSeconds/3600)%24;
-    const minutes=Math.floor(totalSeconds/60)%60;
-    const seconds=totalSeconds%60;
-
-    if(countdown) countdown.textContent=`${days} jours ${hours} h ${minutes} min ${seconds} s`;
-  });
-
-  // ========== AJOUTE CE BLOC ICI (PARTIE 2) ==========
-  // Calculer l'âge moyen
-  let totalAge = 0;
-  let countWithYear = 0;
-  users.forEach(user => {
-    if(user.birthday.year) {
-      let age = parisNow.getFullYear() - user.birthday.year;
-      if(parisNow.getMonth() < user.birthday.month || 
-         (parisNow.getMonth() === user.birthday.month && parisNow.getDate() < user.birthday.day)) {
-        age--;
-      }
-      totalAge += age;
-      countWithYear++;
-    }
-  });
-
-
-  const avgAge = countWithYear > 0 ? Math.round(totalAge / countWithYear) : 0;
-  // ========== FIN DU BLOC ==========
-
-  document.getElementById('total-count').textContent = users.length;
-  document.getElementById('today-count').textContent = todayCount;
-  document.getElementById('week-count').textContent = weekCount;
-  document.getElementById('avg-age').textContent = avgAge; // ← AJOUTE CETTE LIGNE (PARTIE 3)
-}
-
-    // Recherche
-    document.getElementById('search-input').addEventListener('input', function(e) {
-      const search = e.target.value.toLowerCase();
-      document.querySelectorAll('.user-container').forEach(card => {
-        const name = card.dataset.name;
-        const monthFilter = document.querySelector('.month-filter.active').dataset.month;
-        const matchesSearch = name.includes(search);
-        const matchesMonth = monthFilter === 'all' || card.dataset.month === monthFilter;
-        card.style.display = (matchesSearch && matchesMonth) ? 'flex' : 'none';
-      });
-    });
-
-    // Filtres mois
-    document.querySelectorAll('.month-filter').forEach(btn => {
-      btn.addEventListener('click', function() {
-        document.querySelectorAll('.month-filter').forEach(b => b.classList.remove('active'));
-        this.classList.add('active');
-        
-        const selectedMonth = this.dataset.month;
-        const searchValue = document.getElementById('search-input').value.toLowerCase();
-        
-        document.querySelectorAll('.user-container').forEach(card => {
-          const matchesMonth = selectedMonth === 'all' || card.dataset.month === selectedMonth;
-          const matchesSearch = card.dataset.name.includes(searchValue);
-          card.style.display = (matchesMonth && matchesSearch) ? 'flex' : 'none';
-        });
-      });
-    });
-
-    // Fonction de tri
-function sortUsers(sortType) {
-  const container = document.getElementById("users-container");
-  const cards = Array.from(container.children);
-  
-  cards.sort((a, b) => {
-    const userA = users.find(u => u.pseudo.toLowerCase() === a.dataset.name);
-    const userB = users.find(u => u.pseudo.toLowerCase() === b.dataset.name);
-    
-    switch(sortType) {
-      case 'name':
-        return userA.pseudo.localeCompare(userB.pseudo);
-      
-      case 'age':
-        if (!userA.birthday.year || !userB.birthday.year) return 0;
-        return userB.birthday.year - userA.birthday.year; // Plus jeune en premier
-      
-      case 'month':
-        if (userA.birthday.month !== userB.birthday.month) {
-          return userA.birthday.month - userB.birthday.month;
+                // Explosions initiales
+                setTimeout(() => {
+                    this.burst(this.canvas.width * 0.3, this.canvas.height * 0.2, 70);
+                }, 300);
+                setTimeout(() => {
+                    this.burst(this.canvas.width * 0.7, this.canvas.height * 0.25, 70);
+                }, 600);
+                setTimeout(() => {
+                    this.burst(this.canvas.width * 0.5, this.canvas.height * 0.15, 80);
+                }, 900);
+            }
         }
-        return userA.birthday.day - userB.birthday.day;
-      
-      case 'proximity':
-      default:
-        return timeUntilBirthday(userA.birthday) - timeUntilBirthday(userB.birthday);
-    }
-  });
-  
-  // Réorganiser les cartes dans le DOM
-  cards.forEach(card => container.appendChild(card));
-}
 
-// Gestionnaire de clic sur les boutons de tri
-document.querySelectorAll('.sort-btn').forEach(btn => {
-  btn.addEventListener('click', function() {
-    document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
-    this.classList.add('active');
-    sortUsers(this.dataset.sort);
-  });
-});
+        // ============================================
+        // ÉTOILES SCINTILLANTES
+        // ============================================
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            for (let i = 0; i < 60; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.cssText = `
+                    left: ${Math.random() * 100}%;
+                    top: ${Math.random() * 100}%;
+                    animation-delay: ${Math.random() * 3}s;
+                    animation-duration: ${2 + Math.random() * 3}s;
+                    width: ${2 + Math.random() * 3}px;
+                    height: ${2 + Math.random() * 3}px;
+                `;
+                starsContainer.appendChild(star);
+            }
+        }
 
-    updateCountdowns();
-    setInterval(updateCountdowns,1000);
-  </script>
+        // ============================================
+        // DONNÉES UTILISATEURS
+        // ============================================
+        const users = [
+            { pseudo: "Test (Aujourd'hui!)", avatar: "", birthday: { day: new Date().getDate(), month: new Date().getMonth() + 1, year: 2000 } },
+            { pseudo: "Lilian B", avatar: "chill.png", birthday: { day: 10, month: 11, hour:0, minute:0, second:0, year:2002 } },
+            { pseudo: "Laurent L", avatar: "classe.png", birthday: { day: 6, month:11, hour:0, minute:0, second:0, year:1977 } },
+            { pseudo: "MickaeL C", avatar: "classe.png", birthday: { day: 9, month: 12, hour:0, minute:0, second:0, year:1991 } },
+            { pseudo: "Tracy G", avatar: "venere.png", birthday: { day: 20, month: 1, hour:0, minute:0, second:0, year:1993 } },
+            { pseudo: "Even C", avatar: "chill.png", birthday: { day: 12, month: 2, hour:0, minute:0, second:0, year:2002 } },
+            { pseudo: "Jean L", avatar: "yeman.png", birthday: { day: 20, month: 2, hour:0, minute:0, second:0, year:1980 } },
+            { pseudo: "Pierrick M", avatar: "chill.png", birthday: { day: 4, month: 3, hour:0, minute:0, second:0, year:1991 } },
+            { pseudo: "Nicolas D", avatar: "chill.png", birthday: { day: 9, month: 3, hour:0, minute:0, second:0, year:1991 } },
+            { pseudo: "Zoahoui Z", avatar: "chill.png", birthday: { day: 16, month: 3, hour:0, minute:0, second:0, year:1971 } },
+            { pseudo: "Frédéric N", avatar: "chill.png", birthday: { day: 29, month: 4, hour:0, minute:0, second:0, year:1977 } },
+            { pseudo: "Nadejki C", avatar: "chill.png", birthday: { day: 28, month: 6, hour:0, minute:0, second:0, year:1985 } },
+            { pseudo: "David D", avatar: "yeman.png", birthday: { day: 1, month: 7, hour:0, minute:0, second:0, year:1985 } },
+            { pseudo: "Christophe DB", avatar: "chill.png", birthday: { day: 3, month: 7, hour:0, minute:0, second:0, year:1979 } },
+            { pseudo: "Abdelhak H", avatar: "chill.png", birthday: { day: 9, month: 7, hour:0, minute:0, second:0, year:1980 } },
+            { pseudo: "Thomas C", avatar: "chill.png", birthday: { day: 18, month: 8, hour:0, minute:0, second:0, year:2002 } },
+            { pseudo: "Mathieu A", avatar: "chill.png", birthday: { day: 25, month: 9, hour:0, minute:0, second:0, year:1990 } },
+            { pseudo: "Clément S", avatar: "yeman.png", birthday: { day: 13, month: 11, hour:0, minute:0, second:0, year:1987 } },
+            { pseudo: "Lorenzo M", avatar: "chill.png", birthday: { day: 27, month: 9, hour:0, minute:0, second:0, year:2007 } },
+            { pseudo: "Alexia B", avatar: "chill.png", birthday: { day: 11, month: 9, hour:0, minute:0, second:0, year:2002 } },
+            { pseudo: "Edgar F le SLS à couette", avatar: "yeman.png", birthday: { day: 21, month: 2, hour:0, minute:0, second:0, year:1992 } },        ];
+
+        const accentColors = [
+            '#e50914', '#ff3d47', '#b20710', '#c9a227', '#ffffff'
+        ];
+
+        const monthNames = [
+            'janvier', 'février', 'mars', 'avril', 'mai', 'juin',
+            'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'
+        ];
+
+        function getNextBirthday(birthday) {
+            const now = new Date();
+            const thisYear = now.getFullYear();
+            let nextBirthday = new Date(thisYear, birthday.month - 1, birthday.day);
+            
+            if (nextBirthday < now && !(nextBirthday.toDateString() === now.toDateString())) {
+                nextBirthday = new Date(thisYear + 1, birthday.month - 1, birthday.day);
+            }
+            
+            return nextBirthday;
+        }
+
+        function getAge(birthday) {
+            const now = new Date();
+            let age = now.getFullYear() - birthday.year;
+            const monthDiff = now.getMonth() + 1 - birthday.month;
+            if (monthDiff < 0 || (monthDiff === 0 && now.getDate() < birthday.day)) {
+                age--;
+            }
+            return age;
+        }
+
+        function isBirthdayToday(birthday) {
+            const now = new Date();
+            return birthday.day === now.getDate() && birthday.month === (now.getMonth() + 1);
+        }
+
+        function getCountdown(targetDate) {
+            const now = new Date();
+            const diff = targetDate - now;
+            
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+            
+            return { days, hours, minutes, seconds };
+        }
+
+        function createAvatarHTML(user, size = 75) {
+            if (user.avatar) {
+                return `<img src="${user.avatar}" alt="${user.pseudo}" class="avatar" style="width: ${size}px; height: ${size}px;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="avatar-placeholder" style="display: none; width: ${size}px; height: ${size}px;">${user.pseudo.charAt(0).toUpperCase()}</div>`;
+            }
+            return `<div class="avatar-placeholder" style="width: ${size}px; height: ${size}px;">${user.pseudo.charAt(0).toUpperCase()}</div>`;
+        }
+
+        function createBirthdayCard(user, index) {
+            const nextBirthday = getNextBirthday(user.birthday);
+            const currentAge = getAge(user.birthday);
+            const upcomingAge = currentAge + 1;
+            const countdown = getCountdown(nextBirthday);
+            
+            return `
+                <div class="birthday-card" style="animation-delay: ${index * 0.1}s">
+                    <div class="avatar-container">
+                        ${createAvatarHTML(user)}
+                    </div>
+                    <div class="card-content">
+                        <h3 class="pseudo">${user.pseudo}</h3>
+                        <div class="user-info">
+                            <p class="birthday-date">
+                                📆 ${user.birthday.day} ${monthNames[user.birthday.month - 1]} ${user.birthday.year}
+                            </p>
+                            <div class="age-info">
+                                <span class="current-age">🎂 ${currentAge} ans</span>
+                                <span class="arrow">→</span>
+                                <span class="upcoming-age">${upcomingAge} ans</span>
+                            </div>
+                        </div>
+                        <div class="countdown" data-target="${nextBirthday.toISOString()}">
+                            <div class="countdown-item">
+                                <div class="countdown-value days">${countdown.days}</div>
+                                <div class="countdown-label">Jours</div>
+                            </div>
+                            <div class="countdown-item">
+                                <div class="countdown-value hours">${countdown.hours}</div>
+                                <div class="countdown-label">Heures</div>
+                            </div>
+                            <div class="countdown-item">
+                                <div class="countdown-value minutes">${countdown.minutes}</div>
+                                <div class="countdown-label">Min</div>
+                            </div>
+                            <div class="countdown-item">
+                                <div class="countdown-value seconds">${countdown.seconds}</div>
+                                <div class="countdown-label">Sec</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function createTodayCard(user) {
+            const age = getAge(user.birthday);
+            return `
+                <section class="today-section">
+                    <h2 class="section-title">
+                        <span class="emoji">🎉</span>
+                        C'est aujourd'hui !
+                    </h2>
+                    <div class="birthday-today">
+                        <div class="avatar-container">
+                            ${createAvatarHTML(user, 100)}
+                        </div>
+                        <div class="info">
+                            <h3>🎂 ${user.pseudo}</h3>
+                            <p class="today-main">Fête ses <span class="age-highlight">${age} ans</span> aujourd'hui !</p>
+                            <p class="today-details">
+                                <span class="detail-item">📅 Né(e) le ${user.birthday.day} ${monthNames[user.birthday.month - 1]} ${user.birthday.year}</span>
+                            </p>
+                        </div>
+                    </div>
+                </section>
+            `;
+        }
+
+        function calculateStats() {
+            const ages = users.map(u => getAge(u.birthday));
+            const totalUsers = users.length;
+            const averageAge = (ages.reduce((a, b) => a + b, 0) / totalUsers).toFixed(1);
+            const youngestAge = Math.min(...ages);
+            const oldestAge = Math.max(...ages);
+            const youngestUser = users.find(u => getAge(u.birthday) === youngestAge);
+            const oldestUser = users.find(u => getAge(u.birthday) === oldestAge);
+            
+            // Prochain anniversaire
+            const upcomingBirthdays = users.filter(u => !isBirthdayToday(u.birthday));
+            upcomingBirthdays.sort((a, b) => getNextBirthday(a.birthday) - getNextBirthday(b.birthday));
+            const nextBirthdayUser = upcomingBirthdays[0];
+            const daysUntilNext = nextBirthdayUser ? Math.ceil((getNextBirthday(nextBirthdayUser.birthday) - new Date()) / (1000 * 60 * 60 * 24)) : 0;
+            
+            // Mois avec le plus d'anniversaires
+            const monthCounts = {};
+            users.forEach(u => {
+                const month = u.birthday.month;
+                monthCounts[month] = (monthCounts[month] || 0) + 1;
+            });
+            const topMonth = Object.entries(monthCounts).sort((a, b) => b[1] - a[1])[0];
+            
+            // Anniversaires aujourd'hui
+            const todayCount = users.filter(u => isBirthdayToday(u.birthday)).length;
+
+            return {
+                totalUsers,
+                averageAge,
+                youngestAge,
+                oldestAge,
+                youngestUser,
+                oldestUser,
+                nextBirthdayUser,
+                daysUntilNext,
+                topMonth: topMonth ? { month: parseInt(topMonth[0]), count: topMonth[1] } : null,
+                todayCount
+            };
+        }
+
+        function renderStats() {
+            const stats = calculateStats();
+            const statsGrid = document.getElementById('stats-grid');
+            
+            statsGrid.innerHTML = `
+                <div class="stat-card">
+                    <div class="stat-icon">👥</div>
+                    <div class="stat-value">${stats.totalUsers}</div>
+                    <div class="stat-label">Membres</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">📊</div>
+                    <div class="stat-value">${stats.averageAge}</div>
+                    <div class="stat-label">Âge moyen</div>
+                    <div class="stat-sublabel">ans</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">👶</div>
+                    <div class="stat-value">${stats.youngestAge}</div>
+                    <div class="stat-label">Plus jeune</div>
+                    <div class="stat-sublabel">${stats.youngestUser?.pseudo || ''}</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">👴</div>
+                    <div class="stat-value">${stats.oldestAge}</div>
+                    <div class="stat-label">Plus âgé</div>
+                    <div class="stat-sublabel">${stats.oldestUser?.pseudo || ''}</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">⏳</div>
+                    <div class="stat-value">${stats.daysUntilNext}</div>
+                    <div class="stat-label">Jours avant</div>
+                    <div class="stat-sublabel">${stats.nextBirthdayUser?.pseudo || ''}</div>
+                </div>
+            `;
+        }
+
+        let confetti = null;
+
+        function renderBirthdays() {
+            const todayContainer = document.getElementById('today-container');
+            const grid = document.getElementById('birthday-grid');
+            
+            const todayBirthdays = users.filter(u => isBirthdayToday(u.birthday));
+            const upcomingBirthdays = users.filter(u => !isBirthdayToday(u.birthday));
+            
+            upcomingBirthdays.sort((a, b) => {
+                return getNextBirthday(a.birthday) - getNextBirthday(b.birthday);
+            });
+            
+            if (todayBirthdays.length > 0) {
+                todayContainer.innerHTML = todayBirthdays.map(u => createTodayCard(u)).join('');
+                
+                // Lancer les confettis
+                const canvas = document.getElementById('confetti-canvas');
+                confetti = new Confetti(canvas);
+                confetti.start();
+            }
+            
+            if (upcomingBirthdays.length > 0) {
+                grid.innerHTML = upcomingBirthdays.map((user, index) => createBirthdayCard(user, index)).join('');
+            } else {
+                grid.innerHTML = '<div class="no-birthdays">Aucun anniversaire à venir</div>';
+            }
+        }
+
+        function updateCountdowns() {
+            document.querySelectorAll('.countdown').forEach(countdown => {
+                const target = new Date(countdown.dataset.target);
+                const { days, hours, minutes, seconds } = getCountdown(target);
+                
+                countdown.querySelector('.days').textContent = days;
+                countdown.querySelector('.hours').textContent = hours;
+                countdown.querySelector('.minutes').textContent = minutes;
+                countdown.querySelector('.seconds').textContent = seconds;
+            });
+        }
+
+        // Initialisation
+        createStars();
+        renderStats();
+        renderBirthdays();
+        setInterval(updateCountdowns, 1000);
+    </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
