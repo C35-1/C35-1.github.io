@@ -547,6 +547,196 @@
                 justify-content: center;
             }
         }
+         /* ============================================
+   TOP 3 SECTION - HBO MAX STYLE 
+   OUTLINE CHROME EFFECT
+   ============================================ */
+.top3-section { margin-bottom: 50px; }
+
+.top3-list {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    padding: 20px 0;
+    scrollbar-width: none;
+}
+.top3-list::-webkit-scrollbar { display: none; }
+
+.top3-tile-wrapper {
+    transition: transform 0.3s ease;
+    position: relative;
+} 
+
+.top3-tile-wrapper:hover {
+    transform: translateY(-5px);
+}
+
+.top3-tile-link {
+    display: flex;
+    align-items: flex-end;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.3s ease;
+}
+.top3-tile-link:hover { transform: scale(1.05); }
+
+/* Chiffre du top 3 */
+.top3-rank-container {
+    position: relative;
+    flex-shrink: 0;
+    margin-right: -16px;
+    z-index: 2;
+    display: flex;
+    align-items: flex-end;
+    padding-bottom: 10px;
+    width: 120px;
+
+    transition: transform 0.3s ease; /* ajout pour l'effet */
+}
+
+/* Quand on survole la tuile */
+.top3-tile-wrapper:hover .top3-rank-container {
+    transform: translateX(-15px); /* décalage vers la gauche + léger zoom */
+}
+
+.rank-image {
+    width: 100%;
+    height: auto;
+    filter: drop-shadow(3px 4px 6px rgba(0,0,0,0.6));
+}
+
+/* Carte image */
+.top3-image-container {
+    position: relative;
+    width: 220px;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #0d0d0d;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.6);
+    isolation: isolate;
+}
+
+.top3-image-container::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    pointer-events: none;
+    z-index: 15;
+}
+
+.top3-tile-image {
+    width: 100%;
+    aspect-ratio: 2/3;
+    object-fit: cover;
+    display: block;
+    position: relative;
+    z-index: 1;
+}
+
+.top3-tile-placeholder {
+    width: 100%;
+    aspect-ratio: 2/3;
+    background: #0d0d0d;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 5rem;
+    font-weight: 700;
+    color: rgba(255,255,255,0.08);
+}
+
+.top3-tile-overlays {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 16px;
+    background: linear-gradient(
+        to top,
+        rgba(30,30,35,1) 0%,    /* bas très sombre */
+        rgba(30,30,35,0.95) 20%, 
+        rgba(30,30,35,0.9) 40%, 
+        rgba(30,30,35,0.7) 60%, 
+        rgba(30,30,35,0.4) 80%, 
+        transparent 100%
+    );
+    z-index: 10;
+}
+
+
+
+
+.top3-tile-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 8px;
+}
+
+.top3-tile-name {
+    font-size: 1.2rem;
+    font-weight: 700;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.top3-age-badge {
+    background: rgba(0, 0, 0, 0.283);
+    padding: 4px 10px;
+    box-shadow: #000000 0px 0px 20px;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 1000;
+}
+
+
+
+.top3-tile-date {
+    font-size: 0.9rem;
+    color: rgba(255,255,255,0.7);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* Countdown */
+.top3-countdown {
+    display: flex;
+    gap: 6px;
+}
+
+.top3-countdown-item {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.15);
+    padding: 8px 0;
+    border-radius: 6px;
+    text-align: center;
+    flex: 1;
+}
+
+.top3-countdown-value {
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.top3-countdown-label {
+    font-size: 0.55rem;
+    color: rgba(255,255,255,0.5);
+    text-transform: uppercase;
+    margin-top: 4px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .top3-rank-container { margin-right: -20px; }
+    .top3-image-container { width: 160px; }
+}
+
+
     </style>
 </head>
 <body>
@@ -574,6 +764,14 @@
                 Statistiques
             </h2>
             <div class="stats-grid" id="stats-grid"></div>
+        </section>
+
+        <section class="top3-section">
+            <h2 class="section-title">
+                <span class="emoji">🏆</span>
+                Les 3 prochains anniversaires
+            </h2>
+            <div class="top3-list" id="top3-list"></div>
         </section>
 
         <section>
@@ -844,6 +1042,8 @@
             return nextBirthday;
         }
 
+         
+
         function getAge(birthday) {
             const now = new Date();
             let age = now.getFullYear() - birthday.year;
@@ -1055,24 +1255,104 @@
             }
         }
 
-        function updateCountdowns() {
-            document.querySelectorAll('.countdown').forEach(countdown => {
-                const target = new Date(countdown.dataset.target);
-                const { days, hours, minutes, seconds } = getCountdown(target);
-                
-                countdown.querySelector('.days').textContent = days;
-                countdown.querySelector('.hours').textContent = hours;
-                countdown.querySelector('.minutes').textContent = minutes;
-                countdown.querySelector('.seconds').textContent = seconds;
-            });
-        }
+      function updateCountdowns() {
+
+    document.querySelectorAll('.countdown, .top3-countdown').forEach(el => {
+        const cd = getCountdown(new Date(el.dataset.target));
+
+        el.querySelector('.days').textContent = cd.days;
+        el.querySelector('.hours').textContent = cd.hours;
+        el.querySelector('.minutes').textContent = cd.minutes;
+        el.querySelector('.seconds').textContent = cd.seconds;
+    });
+
+}
+
+
+        function createTop3Tile(user, rank) {
+    const next = getNextBirthday(user.birthday);
+    const upcomingAge = getAge(user.birthday) + 1;
+    const cd = getCountdown(next);
+
+    const imageHTML = user.avatar
+        ? `<img src="${user.avatar}" class="top3-tile-image"
+             onerror="this.outerHTML='<div class=\\'top3-tile-placeholder\\'>${user.pseudo.charAt(0)}</div>'">`
+        : `<div class="top3-tile-placeholder">${user.pseudo.charAt(0)}</div>`;
+
+    return `
+        <div class="top3-tile-wrapper">
+            <div class="top3-tile-link">
+                <div class="top3-rank-container">
+                    <img src="${rank}.png" class="rank-image" alt="${rank}">
+                </div>
+
+                <div class="top3-image-container">
+                    ${imageHTML}
+
+                    <div class="top3-tile-overlays">
+                        <div class="top3-tile-header">
+                            <p class="top3-tile-name">${user.pseudo}</p>
+                            <span class="top3-age-badge">${upcomingAge} ans</span>
+
+
+                        </div>
+
+                        <p class="top3-tile-date">
+                            📅 ${user.birthday.day} ${monthNames[user.birthday.month - 1]}
+                        </p>
+
+                        <div class="top3-countdown" data-target="${next.toISOString()}">
+                            <div class="top3-countdown-item">
+                                <div class="top3-countdown-value days">${cd.days}</div>
+                                <div class="top3-countdown-label">J</div>
+                            </div>
+                            <div class="top3-countdown-item">
+                                <div class="top3-countdown-value hours">${cd.hours}</div>
+                                <div class="top3-countdown-label">H</div>
+                            </div>
+                            <div class="top3-countdown-item">
+                                <div class="top3-countdown-value minutes">${cd.minutes}</div>
+                                <div class="top3-countdown-label">M</div>
+                            </div>
+                            <div class="top3-countdown-item">
+                                <div class="top3-countdown-value seconds">${cd.seconds}</div>
+                                <div class="top3-countdown-label">S</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+function renderTop3() {
+    const list = document.getElementById('top3-list');
+
+    const upcoming = users
+        .filter(u => !isBirthdayToday(u.birthday))
+        .sort((a, b) =>
+            getNextBirthday(a.birthday) - getNextBirthday(b.birthday)
+        );
+
+    list.innerHTML = upcoming
+        .slice(0, 3)
+        .map((u, i) => createTop3Tile(u, i + 1))
+        .join('');
+}
+
+
+
 
         // Initialisation
         createStars();
         renderStats();
+        renderTop3();
         renderBirthdays();
         setInterval(updateCountdowns, 1000);
+
+        
+
     </script>
 </body>
 </html>
-
