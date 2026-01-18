@@ -528,21 +528,8 @@
             50% { opacity: 0.5; transform: scale(1.2); }
         }
 
-        @media (max-width: 600px) {
-            .birthday-card {
-                flex-direction: column;
-                align-items: center;
-                text-align: center;
-            }
-
-            .countdown {
-                justify-content: center;
-            }
-
-            .birthday-date {
-                justify-content: center;
-            }
-        }
+        
+        
          /* ============================================
    TOP 3 SECTION - HBO MAX STYLE 
    OUTLINE CHROME EFFECT
@@ -730,10 +717,155 @@
     margin-top: 4px;
 }
 
-/* Responsive */
+
+/* MOBILE GLOBAL */
 @media (max-width: 768px) {
-    .top3-rank-container { margin-right: -20px; }
-    .top3-image-container { width: 160px; }
+    body {
+        padding: 10px;
+    }
+
+    .container {
+        padding: 20px 10px;
+    }
+
+    header .title {
+        font-size: clamp(2rem, 8vw, 3rem);
+    }
+
+    header .subtitle {
+        font-size: 0.9rem;
+    }
+
+    /* GRID BIRTHDAY */
+    .birthday-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    /* CARTE ANNIVERSAIRE */
+    .birthday-card {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 20px;
+    }
+
+    .birthday-card .card-content {
+        width: 100%;
+    }
+
+    .birthday-card .avatar, .birthday-today .avatar {
+        width: 80px;
+        height: 80px;
+    }
+
+    .birthday-today {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .today-details {
+        justify-content: center;
+    }
+
+    /* COUNTDOWN */
+    .countdown {
+        justify-content: center;
+        gap: 5px;
+    }
+
+    .countdown-item {
+        padding: 8px 6px;
+        min-width: 40px;
+    }
+
+    .countdown-value {
+        font-size: 1.2rem;
+    }
+
+    .countdown-label {
+        font-size: 0.5rem;
+    }
+
+    /* TOP 3 */
+    .top3-list {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        gap: 12px;
+        padding: 15px 0;
+    }
+
+    .top3-tile-wrapper {
+        min-width: 140px;
+    }
+
+    .top3-image-container {
+        width: 140px;
+        height: auto;
+    }
+
+    .top3-tile-name {
+        font-size: 1rem;
+    }
+
+    .top3-age-badge {
+        font-size: 0.6rem;
+    }
+
+    .top3-tile-date {
+        font-size: 0.7rem;
+    }
+
+    .top3-countdown-value {
+        font-size: 0.9rem;
+    }
+
+    .top3-countdown-label {
+        font-size: 0.45rem;
+    }
+
+    /* STAT CARDS */
+    .stats-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+    }
+
+    .stat-card {
+        padding: 15px;
+    }
+
+    .stat-value {
+        font-size: 1.8rem;
+    }
+
+    .stat-label, .stat-sublabel {
+        font-size: 0.75rem;
+    }
+}
+
+/* EXTRA SMALL SCREEN (< 400px) */
+@media (max-width: 400px) {
+    header .title {
+        font-size: 2rem;
+    }
+
+    .birthday-card .avatar {
+        width: 70px;
+        height: 70px;
+    }
+
+    .birthday-today .avatar {
+        width: 70px;
+        height: 70px;
+    }
+
+    .countdown-value {
+        font-size: 1rem;
+    }
+
+    .top3-image-container {
+        width: 120px;
+    }
 }
 
 
