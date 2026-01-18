@@ -1369,7 +1369,7 @@
     const imageHTML = user.avatar
         ? `<img src="${user.avatar}" class="top3-tile-image"
              onerror="this.outerHTML='<div class=\\'top3-tile-placeholder\\'>${user.pseudo.charAt(0)}</div>'">`
-        : `<div class="top3-tile-placeholder">${user.pseudo.charAt(0)}</div>`;
+        : `<div class="top3-tile-placeholder">${formatPseudo(user).charAt(0)}</div>`;
 
     return `
         <div class="top3-tile-wrapper">
@@ -1383,7 +1383,7 @@
 
                     <div class="top3-tile-overlays">
                         <div class="top3-tile-header">
-                            <p class="top3-tile-name">${user.pseudo}</p>
+                            <p class="top3-tile-name">${formatPseudo(user)}</p>
                             <span class="top3-age-badge">${upcomingAge} ans</span>
 
 
@@ -1418,6 +1418,16 @@
     `;
 }
 
+function formatPseudo(user) {
+    const parts = user.pseudo.trim().split(' ');
+    if (parts.length === 1) return parts[0]; // juste le prénom
+    const firstName = parts[0];
+    const lastInitial = parts[1].charAt(0).toUpperCase();
+    return `${firstName} ${lastInitial}.`;
+}
+
+
+
 function renderTop3() {
     const list = document.getElementById('top3-list');
 
@@ -1448,7 +1458,3 @@ function renderTop3() {
     </script>
 </body>
 </html>
-
-
-
-
