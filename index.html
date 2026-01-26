@@ -98,7 +98,6 @@
         }
 
         .container {
-            
             position: relative;
             z-index: 1;
             max-width: 1400px;
@@ -139,7 +138,6 @@
         }
 
         .stats-grid {
-            
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 20px;
@@ -441,7 +439,6 @@
             color: var(--text-secondary);
         }
 
-
         .upcoming-age {
             background: rgba(58, 58, 58, 0.479);
             padding: 3px 10px;
@@ -449,11 +446,9 @@
             border-radius: 100px;
             color: var(--text-secondary);
             font-size: 0.95rem;
-
         }
 
         .age-badge {
-
             padding: 3px 10px;
             border-radius: 6px;
             font-size: 0.95rem;
@@ -480,14 +475,6 @@
             font-weight: 700;
             color: #ffffff;
             line-height: 1;
-        }
-
-        .countdown-label {
-            font-size: 0.65rem;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-top: 5px;
         }
 
         .countdown-label {
@@ -528,307 +515,494 @@
             50% { opacity: 0.5; transform: scale(1.2); }
         }
 
-        
-        
-         /* ============================================
-   TOP 3 SECTION - HBO MAX STYLE 
-   OUTLINE CHROME EFFECT
-   ============================================ */
-.top3-section { margin-bottom: 50px; }
+        /* ============================================
+           TOP 3 SECTION - HBO MAX STYLE 
+        ============================================ */
+        .top3-section { margin-bottom: 50px; }
 
-.top3-list {
-    display: flex;
-    gap: 20px;
-    overflow-x: auto;
-    padding: 20px 0;
-    scrollbar-width: none;
-}
-.top3-list::-webkit-scrollbar { display: none; }
+        .top3-list {
+            display: flex;
+            gap: 20px;
+            overflow-x: auto;
+            padding: 20px 0;
+            scrollbar-width: none;
+        }
+        .top3-list::-webkit-scrollbar { display: none; }
 
-.top3-tile-wrapper {
-    transition: transform 0.3s ease;
-    position: relative;
-} 
+        .top3-tile-wrapper {
+            transition: transform 0.3s ease;
+            position: relative;
+        } 
 
-.top3-tile-wrapper:hover {
-    transform: translateY(-5px);
-}
+        .top3-tile-wrapper:hover {
+            transform: translateY(-5px);
+        }
 
-.top3-tile-link {
-    display: flex;
-    align-items: flex-end;
-    text-decoration: none;
-    color: inherit;
-    transition: transform 0.3s ease;
-}
-.top3-tile-link:hover { transform: scale(1.05); }
+        .top3-tile-link {
+            display: flex;
+            align-items: flex-end;
+            text-decoration: none;
+            color: inherit;
+            transition: transform 0.3s ease;
+        }
+        .top3-tile-link:hover { transform: scale(1.05); }
 
-/* Chiffre du top 3 */
-.top3-rank-container {
-    position: relative;
-    flex-shrink: 0;
-    margin-right: -16px;
-    z-index: 2;
-    display: flex;
-    align-items: flex-end;
-    padding-bottom: 10px;
-    width: 120px;
+        .top3-rank-container {
+            position: relative;
+            flex-shrink: 0;
+            margin-right: -16px;
+            z-index: 2;
+            display: flex;
+            align-items: flex-end;
+            padding-bottom: 10px;
+            width: 120px;
+            transition: transform 0.3s ease;
+        }
 
-    transition: transform 0.3s ease; /* ajout pour l'effet */
-}
+        .top3-tile-wrapper:hover .top3-rank-container {
+            transform: translateX(-15px);
+        }
 
-/* Quand on survole la tuile */
-.top3-tile-wrapper:hover .top3-rank-container {
-    transform: translateX(-15px); /* décalage vers la gauche + léger zoom */
-}
+        .top3-tile-wrapper:hover .top3-image-container {
+            box-shadow: 0 0 0px rgba(0, 0, 0, 0.1);
+        }
 
-.top3-tile-wrapper:hover .top3-image-container {
-    box-shadow: 0 0 0px rgba(0, 0, 0, 0.1);
-}
+        .rank-image {
+            width: 100%;
+            height: auto;
+            filter: drop-shadow(3px 4px 6px rgba(0,0,0,0.6));
+        }
 
-.rank-image {
-    width: 100%;
-    height: auto;
-    filter: drop-shadow(3px 4px 6px rgba(0,0,0,0.6));
-}
+        .top3-image-container {
+            position: relative;
+            width: 300px;
+            height: auto;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #0d0d0d;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.6);
+            isolation: isolate;
+        }
 
-/* Carte image */
-.top3-image-container {
-    position: relative;
-    width: 300px;
-    height: auto;
-    border-radius: 12px;
-    overflow: hidden;
-    background: #0d0d0d;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.6);
-    isolation: isolate;
-}
+        .top3-image-container::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            pointer-events: none;
+            z-index: 15;
+        }
 
-.top3-image-container::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 12px;
-    pointer-events: none;
-    z-index: 15;
-}
+        .top3-tile-image {
+            width: 100%;
+            aspect-ratio: 2/3;
+            object-fit: cover;
+            display: block;
+            position: relative;
+            z-index: 1;
+        }
 
-.top3-tile-image {
-    width: 100%;
-    aspect-ratio: 2/3;
-    object-fit: cover;
-    display: block;
-    position: relative;
-    z-index: 1;
-}
+        .top3-tile-placeholder {
+            width: 100%;
+            aspect-ratio: 2/3;
+            background: #0d0d0d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5rem;
+            font-weight: 700;
+            color: rgba(255,255,255,0.08);
+        }
 
-.top3-tile-placeholder {
-    width: 100%;
-    aspect-ratio: 2/3;
-    background: #0d0d0d;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 5rem;
-    font-weight: 700;
-    color: rgba(255,255,255,0.08);
-}
+        .top3-tile-overlays {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 16px;
+            background: linear-gradient(
+                to top,
+                rgba(30,30,35,1) 0%,
+                rgba(30,30,35,0.95) 20%, 
+                rgba(30,30,35,0.9) 40%, 
+                rgba(30,30,35,0.7) 60%, 
+                rgba(30,30,35,0.4) 80%, 
+                transparent 100%
+            );
+            z-index: 10;
+        }
 
-.top3-tile-overlays {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: 16px;
-    background: linear-gradient(
-        to top,
-        rgba(30,30,35,1) 0%,    /* bas très sombre */
-        rgba(30,30,35,0.95) 20%, 
-        rgba(30,30,35,0.9) 40%, 
-        rgba(30,30,35,0.7) 60%, 
-        rgba(30,30,35,0.4) 80%, 
-        transparent 100%
-    );
-    z-index: 10;
-}
+        .top3-tile-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 8px;
+        }
 
+        .top3-tile-name {
+            font-size: 1.2rem;
+            font-weight: 700;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
 
-
-
-.top3-tile-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 8px;
-}
-
-.top3-tile-name {
-    font-size: 1.2rem;
-    font-weight: 700;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.top3-age-badge {
-    background: rgba(58, 58, 58, 0.479);
+        .top3-age-badge {
+            background: rgba(58, 58, 58, 0.479);
             padding: 3px 10px;
             box-shadow: inset 0 0 5px rgb(0, 0, 0);
-    border-radius: 999px;
-    font-size: 0.75rem;
-    font-weight: 1000;
-}
+            border-radius: 999px;
+            font-size: 0.75rem;
+            font-weight: 1000;
+        }
 
+        .top3-tile-date {
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.7);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
 
+        .top3-countdown {
+            display: flex;
+            gap: 6px;
+        }
 
-.top3-tile-date {
-    font-size: 0.9rem;
-    color: rgba(255,255,255,0.7);
-    margin-bottom: 12px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-}
+        .top3-countdown-item {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.15);
+            padding: 8px 0;
+            border-radius: 6px;
+            text-align: center;
+            flex: 1;
+        }
 
-/* Countdown */
-.top3-countdown {
-    display: flex;
-    gap: 6px;
-}
+        .top3-countdown-value {
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
 
-.top3-countdown-item {
-    background: rgba(255,255,255,0.1);
-    border: 1px solid rgba(255,255,255,0.15);
-    padding: 8px 0;
-    border-radius: 6px;
-    text-align: center;
-    flex: 1;
-}
+        .top3-countdown-label {
+            font-size: 0.55rem;
+            color: rgba(255,255,255,0.5);
+            text-transform: uppercase;
+            margin-top: 4px;
+        }
 
-.top3-countdown-value {
-    font-size: 1.1rem;
-    font-weight: 700;
-}
+        /* ============================================
+           SHARE CARD STYLES
+        ============================================ */
+        .share-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
 
-.top3-countdown-label {
-    font-size: 0.55rem;
-    color: rgba(255,255,255,0.5);
-    text-transform: uppercase;
-    margin-top: 4px;
-}
+        .share-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
 
+        .share-btn-primary {
+            background: linear-gradient(135deg, #e50914, #b20710);
+            color: white;
+        }
 
-/* MOBILE GLOBAL */
-@media (max-width: 768px) {
-    body {
-        padding: 10px;
-    }
+        .share-btn-primary:hover {
+            background: linear-gradient(135deg, #ff3d47, #e50914);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(229, 9, 20, 0.4);
+        }
 
-    .container {
-        padding: 20px 10px;
-    }
+        /* Modal styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
 
-    header .title {
-        font-size: clamp(2rem, 8vw, 3rem);
-    }
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
 
-    header .subtitle {
-        font-size: 0.9rem;
-    }
+        .modal-content {
+            background: linear-gradient(135deg, #1a1a1a, #0d0d0d);
+            border: 1px solid rgba(229, 9, 20, 0.3);
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+            position: relative;
+        }
 
-    /* GRID BIRTHDAY */
-    .birthday-grid {
-        grid-template-columns: 1fr;
-        gap: 20px;
-    }
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+        }
 
-    /* CARTE ANNIVERSAIRE */
-    .birthday-card {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        padding: 20px;
-    }
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
 
-    .birthday-card .card-content {
-        width: 100%;
-    }
+        .modal-close:hover {
+            background: rgba(229, 9, 20, 0.5);
+        }
 
-    .birthday-card .avatar, .birthday-today .avatar {
-        width: 80px;
-        height: 80px;
-    }
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-align: center;
+        }
 
-    .birthday-today {
-        flex-direction: column;
-        text-align: center;
-    }
+        /* Share Card Preview - Canvas uniquement */
+        .share-card-preview {
+            position: relative;
+            width: 300px;
+            height: 450px;
+            margin: 0 auto 20px;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #0d0d0d;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.6);
+        }
 
-    .today-details {
-        justify-content: center;
-    }
+        .share-card-canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+            border-radius: 12px;
+        }
 
-    /* COUNTDOWN */
-    .countdown {
-        justify-content: center;
-        gap: 5px;
-    }
+        .generating-text {
+            text-align: center;
+            padding: 10px;
+            color: var(--accent-red);
+            font-weight: 600;
+            display: none;
+        }
 
-    .countdown-item {
-        padding: 8px 6px;
-        min-width: 40px;
-    }
+        .generating-text.active {
+            display: block;
+        }
 
-    .countdown-value {
-        font-size: 1.2rem;
-    }
+        .share-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
 
-    .countdown-label {
-        font-size: 0.5rem;
-    }
+        .share-action-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 10px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
 
+        .share-action-btn.download {
+            background: linear-gradient(135deg, #e50914, #b20710);
+            color: white;
+        }
 
-    /* STAT CARDS */
-    .stats-grid {
-        grid-template-columns: 1fr 1fr;
-        gap: 12px;
-    }
+        .share-action-btn.download:hover {
+            background: linear-gradient(135deg, #ff3d47, #e50914);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(229, 9, 20, 0.4);
+        }
 
-    .stat-card {
-        padding: 15px;
-    }
+        /* Toast notification */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: linear-gradient(135deg, #25D366, #128C7E);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-weight: 600;
+            z-index: 3000;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
 
-    .stat-value {
-        font-size: 1.8rem;
-    }
+        .toast.active {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
 
-    .stat-label, .stat-sublabel {
-        font-size: 0.75rem;
-    }
-}
+        /* MOBILE */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
 
-/* EXTRA SMALL SCREEN (< 400px) */
-@media (max-width: 400px) {
-    header .title {
-        font-size: 2rem;
-    }
+            .container {
+                padding: 20px 10px;
+            }
 
-    .birthday-card .avatar {
-        width: 70px;
-        height: 70px;
-    }
+            header .title {
+                font-size: clamp(2rem, 8vw, 3rem);
+            }
 
-    .birthday-today .avatar {
-        width: 70px;
-        height: 70px;
-    }
+            header .subtitle {
+                font-size: 0.9rem;
+            }
 
-    .countdown-value {
-        font-size: 1rem;
-    }
+            .birthday-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
 
+            .birthday-card {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                padding: 20px;
+            }
 
+            .birthday-card .card-content {
+                width: 100%;
+            }
+
+            .birthday-card .avatar, .birthday-today .avatar {
+                width: 80px;
+                height: 80px;
+            }
+
+            .birthday-today {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .today-details {
+                justify-content: center;
+            }
+
+            .countdown {
+                justify-content: center;
+                gap: 5px;
+            }
+
+            .countdown-item {
+                padding: 8px 6px;
+                min-width: 40px;
+            }
+
+            .countdown-value {
+                font-size: 1.2rem;
+            }
+
+            .countdown-label {
+                font-size: 0.5rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 12px;
+            }
+
+            .stat-card {
+                padding: 15px;
+            }
+
+            .stat-value {
+                font-size: 1.8rem;
+            }
+
+            .stat-label, .stat-sublabel {
+                font-size: 0.75rem;
+            }
+
+            .share-buttons {
+                justify-content: center;
+            }
+
+            .modal-content {
+                padding: 20px;
+            }
+
+            .share-card-preview {
+                padding: 20px;
+            }
+
+            .share-card-name {
+                font-size: 1.4rem;
+            }
+
+            .share-card-age {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 400px) {
+            header .title {
+                font-size: 2rem;
+            }
+
+            .birthday-card .avatar {
+                width: 70px;
+                height: 70px;
+            }
+
+            .birthday-today .avatar {
+                width: 70px;
+                height: 70px;
+            }
+
+            .countdown-value {
+                font-size: 1rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -875,6 +1049,30 @@
         </section>
     </div>
 
+    <!-- Share Modal -->
+    <div class="modal-overlay" id="share-modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeShareModal()">✕</button>
+            <h2 class="modal-title">🎉 Créer la carte</h2>
+            
+            <div class="share-card-preview" id="share-card-preview">
+                <canvas class="share-card-canvas" id="card-confetti-canvas"></canvas>
+            </div>
+
+            <div class="generating-text" id="generating-text">⏳ Génération du GIF en cours...</div>
+
+            <div class="share-actions">
+                <button class="share-action-btn download" onclick="downloadGif()">
+                    🎬 Télécharger le GIF
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast">Message copié !</div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gif.js/0.2.0/gif.js"></script>
     <script>
         // ============================================
         // SYSTÈME DE CONFETTIS RÉALISTES (Canvas)
@@ -935,7 +1133,6 @@
                 this.ctx.rotate(p.rotation * Math.PI / 180);
                 this.ctx.scale(p.scale, p.scale * Math.cos(p.tilt));
                 this.ctx.globalAlpha = p.opacity;
-
                 this.ctx.fillStyle = p.color;
 
                 switch(p.shape) {
@@ -1016,7 +1213,6 @@
                 this.running = true;
                 this.continuousInterval = setInterval(() => {
                     if (this.running && this.particles.length < 200) {
-                        // Ajouter des confettis depuis le haut
                         this.particles.push(this.createParticle());
                         if (Math.random() > 0.5) {
                             this.particles.push(this.createParticle());
@@ -1046,7 +1242,6 @@
                 this.animate();
                 this.startContinuous();
                 
-                // Explosions périodiques depuis les côtés
                 this.burstInterval = setInterval(() => {
                     if (this.running) {
                         const side = Math.random() > 0.5;
@@ -1055,7 +1250,6 @@
                     }
                 }, 4000);
 
-                // Explosions initiales
                 setTimeout(() => {
                     this.burst(this.canvas.width * 0.3, this.canvas.height * 0.2, 70);
                 }, 300);
@@ -1091,37 +1285,377 @@
         // ============================================
         // DONNÉES UTILISATEURS
         // ============================================
-        const users = [
-            { pseudo: "Lilian BERGUIO", avatar: "chill.png", birthday: { day: 10, month: 11, hour:0, minute:0, second:0, year:2002 } },
-            { pseudo: "Laurent LOZANO", avatar: "classe.png", birthday: { day: 6, month:11, hour:0, minute:0, second:0, year:1977 } },
-            { pseudo: "MickaeL COURBIERES", avatar: "classe.png", birthday: { day: 9, month: 12, hour:0, minute:0, second:0, year:1991 } },
-            { pseudo: "Tracy GODET", avatar: "venere.png", birthday: { day: 20, month: 1, hour:0, minute:0, second:0, year:1993 } },
-            { pseudo: "Even CLAMENS", avatar: "chill.png", birthday: { day: 12, month: 2, hour:0, minute:0, second:0, year:2002 } },
-            { pseudo: "Jean LAU YIA", avatar: "yeman.png", birthday: { day: 20, month: 2, hour:0, minute:0, second:0, year:1980 } },
-            { pseudo: "Pierrick MARTEAU", avatar: "chill.png", birthday: { day: 4, month: 3, hour:0, minute:0, second:0, year:1991 } },
-            { pseudo: "Nicolas DIMOND", avatar: "chill.png", birthday: { day: 9, month: 3, hour:0, minute:0, second:0, year:1991 } },
-            { pseudo: "Zallif ZOAHOUI", avatar: "chill.png", birthday: { day: 16, month: 3, hour:0, minute:0, second:0, year:1971 } },
-            { pseudo: "Frédéric NGUYEN", avatar: "chill.png", birthday: { day: 29, month: 4, hour:0, minute:0, second:0, year:1977 } },
-            { pseudo: "Nadejki COUDAUX", avatar: "chill.png", birthday: { day: 28, month: 6, hour:0, minute:0, second:0, year:1985 } },
-            { pseudo: "David DA COSTA", avatar: "yeman.png", birthday: { day: 1, month: 7, hour:0, minute:0, second:0, year:1985 } },
-            { pseudo: "Christophe DE BIASI", avatar: "chill.png", birthday: { day: 3, month: 7, hour:0, minute:0, second:0, year:1979 } },
-            { pseudo: "Laurent NARDI", avatar: "chill.png", birthday: { day: 17, month: 11, hour:0, minute:0, second:0, year:1986 } },
-            { pseudo: "Abdelhak HAMADOUCHE", avatar: "chill.png", birthday: { day: 9, month: 7, hour:0, minute:0, second:0, year:1980 } },
-            { pseudo: "Thomas CHOQUET (parti)", avatar: "chill.png", birthday: { day: 18, month: 8, hour:0, minute:0, second:0, year:2002 } },
-            { pseudo: "Mathieu AUGE", avatar: "chill.png", birthday: { day: 25, month: 9, hour:0, minute:0, second:0, year:1990 } },
-            { pseudo: "Clément SAURA", avatar: "yeman.png", birthday: { day: 13, month: 11, hour:0, minute:0, second:0, year:1987 } },
-            { pseudo: "Lorenzo MONFORTE", avatar: "chill.png", birthday: { day: 27, month: 9, hour:0, minute:0, second:0, year:2007 } },
-            { pseudo: "Alexia BORDENAVE", avatar: "chill.png", birthday: { day: 11, month: 9, hour:0, minute:0, second:0, year:2002 } },
-            { pseudo: "Edgar FRANCOISE (SLS)", avatar: "yeman.png", birthday: { day: 21, month: 2, hour:0, minute:0, second:0, year:1992 } },        ];
-
-        const accentColors = [
-            '#e50914', '#ff3d47', '#b20710', '#c9a227', '#ffffff'
+        const today = new Date();
+        
+        // Liste de tous les avatars disponibles
+        const availableAvatars = [
+            'captain.jpg',
+            'charmeur.jpg',
+            'chill.png',
+            'classe.png',
+            'fleur.jpg',
+            'heyhey.jpg',
+            'peace.jpg',
+            'tombe.jpg',
+            'usaintbolt.jpg',
+            'venere.png',
+            'YEAHHH.jpg',
+            'yeman.png'
         ];
+        
+        // Fonction pour générer un hash à partir d'une string
+        function hashString(str) {
+            let hash = 0;
+            for (let i = 0; i < str.length; i++) {
+                const char = str.charCodeAt(i);
+                hash = ((hash << 5) - hash) + char;
+                hash = hash & hash;
+            }
+            return Math.abs(hash);
+        }
+        
+        // Fonction pour obtenir un avatar aléatoire mais consistant par jour
+        function getRandomAvatar(pseudo) {
+            const today = new Date();
+            // Combiner le pseudo avec la date du jour pour un avatar différent chaque jour
+            const dayString = `${today.getFullYear()}-${today.getMonth()}-${today.getDate()}`;
+            const seed = hashString(pseudo + dayString);
+            const index = seed % availableAvatars.length;
+            return availableAvatars[index];
+        }
+        
+        const users = [
+            // UTILISATEUR TEST - ANNIVERSAIRE AUJOURD'HUI
+            { pseudo: "Test USER", birthday: { day: today.getDate(), month: today.getMonth() + 1, hour: 0, minute: 0, second: 0, year: 1995 } },
+            
+            { pseudo: "Lilian BERGUIO", birthday: { day: 10, month: 11, hour:0, minute:0, second:0, year:2002 } },
+            { pseudo: "Laurent LOZANO", birthday: { day: 6, month:11, hour:0, minute:0, second:0, year:1977 } },
+            { pseudo: "MickaeL COURBIERES", birthday: { day: 9, month: 12, hour:0, minute:0, second:0, year:1991 } },
+            { pseudo: "Tracy GODET", birthday: { day: 20, month: 1, hour:0, minute:0, second:0, year:1993 } },
+            { pseudo: "Even CLAMENS", birthday: { day: 12, month: 2, hour:0, minute:0, second:0, year:2002 } },
+            { pseudo: "Jean LAU YIA", birthday: { day: 20, month: 2, hour:0, minute:0, second:0, year:1980 } },
+            { pseudo: "Pierrick MARTEAU", birthday: { day: 4, month: 3, hour:0, minute:0, second:0, year:1991 } },
+            { pseudo: "Nicolas DIMOND", birthday: { day: 9, month: 3, hour:0, minute:0, second:0, year:1991 } },
+            { pseudo: "Zallif ZOAHOUI", birthday: { day: 16, month: 3, hour:0, minute:0, second:0, year:1971 } },
+            { pseudo: "Frédéric NGUYEN", birthday: { day: 29, month: 4, hour:0, minute:0, second:0, year:1977 } },
+            { pseudo: "Nadejki COUDAUX", birthday: { day: 28, month: 6, hour:0, minute:0, second:0, year:1985 } },
+            { pseudo: "David DA COSTA", birthday: { day: 1, month: 7, hour:0, minute:0, second:0, year:1985 } },
+            { pseudo: "Christophe DE BIASI", birthday: { day: 3, month: 7, hour:0, minute:0, second:0, year:1979 } },
+            { pseudo: "Laurent NARDI", birthday: { day: 17, month: 11, hour:0, minute:0, second:0, year:1986 } },
+            { pseudo: "Abdelhak HAMADOUCHE", birthday: { day: 9, month: 7, hour:0, minute:0, second:0, year:1980 } },
+            { pseudo: "Thomas CHOQUET (parti)", birthday: { day: 18, month: 8, hour:0, minute:0, second:0, year:2002 } },
+            { pseudo: "Mathieu AUGE", birthday: { day: 25, month: 9, hour:0, minute:0, second:0, year:1990 } },
+            { pseudo: "Clément SAURA", birthday: { day: 13, month: 11, hour:0, minute:0, second:0, year:1987 } },
+            { pseudo: "Lorenzo MONFORTE", birthday: { day: 27, month: 9, hour:0, minute:0, second:0, year:2007 } },
+            { pseudo: "Alexia BORDENAVE", birthday: { day: 11, month: 9, hour:0, minute:0, second:0, year:2002 } },
+            { pseudo: "Edgar FRANCOISE (SLS)", birthday: { day: 21, month: 2, hour:0, minute:0, second:0, year:1992 } },
+        ];
+        
+        // Ajouter automatiquement un avatar à chaque utilisateur
+        users.forEach(user => {
+            user.avatar = getRandomAvatar(user.pseudo);
+        });
 
         const monthNames = [
             'janvier', 'février', 'mars', 'avril', 'mai', 'juin',
             'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'
         ];
+
+        // Variables pour le partage
+        let currentShareUser = null;
+        let cardConfetti = null;
+        let cardAnimationId = null;
+
+        // ============================================
+        // CLASSE CARD RENDERER - DESSINE TOUT SUR CANVAS
+        // ============================================
+        class CardRenderer {
+            constructor(canvas) {
+                this.canvas = canvas;
+                this.ctx = canvas.getContext('2d');
+                this.particles = [];
+                this.colors = [
+                    '#e50914', '#ff3d47', '#b20710', '#ffffff', '#cccccc', 
+                    '#ff6b6b', '#c9a227', '#ffd700', '#ff4444', '#ff8080'
+                ];
+                this.running = false;
+                this.image = null;
+                this.imageLoaded = false;
+                this.userName = '';
+                this.userAge = 0;
+                this.userInitial = '';
+                
+                // Dimensions fixes de la carte
+                this.width = 300;
+                this.height = 450;
+                this.canvas.width = this.width;
+                this.canvas.height = this.height;
+                this.borderRadius = 12;
+            }
+
+            setUser(user) {
+                this.userName = formatPseudo(user);
+                this.userAge = getAge(user.birthday);
+                this.userInitial = user.pseudo.charAt(0).toUpperCase();
+                
+                // Charger l'image
+                if (user.avatar) {
+                    this.image = new Image();
+                    this.image.crossOrigin = 'anonymous';
+                    this.image.onload = () => {
+                        this.imageLoaded = true;
+                    };
+                    this.image.onerror = () => {
+                        this.imageLoaded = false;
+                        this.image = null;
+                    };
+                    this.image.src = user.avatar;
+                } else {
+                    this.image = null;
+                    this.imageLoaded = false;
+                }
+            }
+
+            createParticle(fromTop = true) {
+                const color = this.colors[Math.floor(Math.random() * this.colors.length)];
+                const shapes = ['square', 'circle', 'ribbon'];
+                const shape = shapes[Math.floor(Math.random() * shapes.length)];
+                
+                return {
+                    x: Math.random() * this.width,
+                    y: fromTop ? -10 : Math.random() * this.height * 0.5,
+                    width: Math.random() * 8 + 4,
+                    height: Math.random() * 6 + 3,
+                    color: color,
+                    shape: shape,
+                    rotation: Math.random() * 360,
+                    rotationSpeed: (Math.random() - 0.5) * 10,
+                    velocityX: (Math.random() - 0.5) * 3,
+                    velocityY: Math.random() * 2 + 1,
+                    gravity: 0.05,
+                    drag: 0.99,
+                    opacity: 1,
+                    wobble: Math.random() * 10,
+                    wobbleSpeed: Math.random() * 0.1 + 0.03,
+                    tilt: Math.random() * Math.PI
+                };
+            }
+
+            drawRoundedRect(x, y, w, h, r) {
+                this.ctx.beginPath();
+                this.ctx.moveTo(x + r, y);
+                this.ctx.lineTo(x + w - r, y);
+                this.ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+                this.ctx.lineTo(x + w, y + h - r);
+                this.ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+                this.ctx.lineTo(x + r, y + h);
+                this.ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+                this.ctx.lineTo(x, y + r);
+                this.ctx.quadraticCurveTo(x, y, x + r, y);
+                this.ctx.closePath();
+            }
+
+            drawCard() {
+                const ctx = this.ctx;
+                
+                ctx.clearRect(0, 0, this.width, this.height);
+                ctx.save();
+                
+                // Masque arrondi
+                this.drawRoundedRect(0, 0, this.width, this.height, this.borderRadius);
+                ctx.clip();
+                
+                // Fond
+                ctx.fillStyle = '#0d0d0d';
+                ctx.fillRect(0, 0, this.width, this.height);
+                
+                // Image ou placeholder
+                if (this.image && this.imageLoaded) {
+                    const imgRatio = this.image.width / this.image.height;
+                    const cardRatio = this.width / this.height;
+                    let drawWidth, drawHeight, drawX, drawY;
+                    
+                    if (imgRatio > cardRatio) {
+                        drawHeight = this.height;
+                        drawWidth = this.image.width * (this.height / this.image.height);
+                        drawX = (this.width - drawWidth) / 2;
+                        drawY = 0;
+                    } else {
+                        drawWidth = this.width;
+                        drawHeight = this.image.height * (this.width / this.image.width);
+                        drawX = 0;
+                        drawY = 0;
+                    }
+                    ctx.drawImage(this.image, drawX, drawY, drawWidth, drawHeight);
+                } else {
+                    const gradient = ctx.createLinearGradient(0, 0, this.width, this.height);
+                    gradient.addColorStop(0, '#1a1a2e');
+                    gradient.addColorStop(1, '#0d0d0d');
+                    ctx.fillStyle = gradient;
+                    ctx.fillRect(0, 0, this.width, this.height);
+                    
+                    ctx.fillStyle = 'rgba(255, 255, 255, 0.15)';
+                    ctx.font = 'bold 80px Outfit, sans-serif';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillText(this.userInitial, this.width / 2, this.height / 2);
+                }
+                
+                // Confettis
+                this.particles.forEach(p => this.drawParticle(p));
+                
+                // Overlay gradient avec dithering manuel
+                const overlayHeight = 200;
+                for (let y = 0; y < overlayHeight; y++) {
+                    const progress = y / overlayHeight; // 0 = haut du dégradé, 1 = bas
+                    // Calculer l'opacité (transparent en haut, opaque en bas)
+                    let alpha;
+                    if (progress < 0.2) {
+                        alpha = progress * 2; // 0 -> 0.4
+                    } else if (progress < 0.4) {
+                        alpha = 0.4 + (progress - 0.2) * 1.5; // 0.4 -> 0.7
+                    } else if (progress < 0.6) {
+                        alpha = 0.7 + (progress - 0.4) * 1; // 0.7 -> 0.9
+                    } else if (progress < 0.8) {
+                        alpha = 0.9 + (progress - 0.6) * 0.25; // 0.9 -> 0.95
+                    } else {
+                        alpha = 0.95 + (progress - 0.8) * 0.25; // 0.95 -> 1
+                    }
+                    alpha = Math.max(0, Math.min(1, alpha));
+                    
+                    // Ajouter un léger bruit pour éviter le banding
+                    const noise = (Math.random() - 0.5) * 0.03;
+                    alpha = Math.max(0, Math.min(1, alpha + noise));
+                    
+                    ctx.fillStyle = `rgba(30, 30, 35, ${alpha})`;
+                    ctx.fillRect(0, this.height - overlayHeight + y, this.width, 1);
+                }
+                
+                // Nom - plus grand
+                ctx.fillStyle = '#ffffff';
+                ctx.font = 'bold 24px Outfit, sans-serif';
+                ctx.textAlign = 'left';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(this.userName, 16, this.height - 55);
+                
+                // Badge d'âge - plus grand
+                const badgeText = `${this.userAge} ans`;
+                ctx.font = 'bold 14px Outfit, sans-serif';
+                const badgeWidth = ctx.measureText(badgeText).width + 28;
+                const badgeHeight = 28;
+                const badgeX = this.width - badgeWidth - 16;
+                const badgeY = this.height - 69;
+                
+                ctx.fillStyle = 'rgba(58, 58, 58, 0.7)';
+                this.drawRoundedRect(badgeX, badgeY, badgeWidth, badgeHeight, 14);
+                ctx.fill();
+                
+                ctx.fillStyle = '#ffffff';
+                ctx.font = 'bold 14px Outfit, sans-serif';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(badgeText, badgeX + badgeWidth / 2, badgeY + badgeHeight / 2);
+                
+                // Message - plus grand
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
+                ctx.font = '16px Outfit, sans-serif';
+                ctx.textAlign = 'left';
+                ctx.fillText('🎂 Fête son anniversaire aujourd\'hui !', 16, this.height - 20);
+                
+                // Bordure
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+                ctx.lineWidth = 1;
+                this.drawRoundedRect(0.5, 0.5, this.width - 1, this.height - 1, this.borderRadius);
+                ctx.stroke();
+                
+                ctx.restore();
+            }
+
+            drawParticle(p) {
+                const ctx = this.ctx;
+                ctx.save();
+                ctx.translate(p.x, p.y);
+                ctx.rotate(p.rotation * Math.PI / 180);
+                ctx.scale(1, Math.cos(p.tilt));
+                ctx.globalAlpha = p.opacity;
+                ctx.fillStyle = p.color;
+
+                switch(p.shape) {
+                    case 'square':
+                        ctx.fillRect(-p.width / 2, -p.height / 2, p.width, p.height);
+                        break;
+                    case 'circle':
+                        ctx.beginPath();
+                        ctx.arc(0, 0, p.width / 2, 0, Math.PI * 2);
+                        ctx.fill();
+                        break;
+                    case 'ribbon':
+                        ctx.beginPath();
+                        ctx.moveTo(-p.width / 2, -p.height / 2);
+                        ctx.lineTo(p.width / 2, -p.height / 4);
+                        ctx.lineTo(p.width / 2, p.height / 2);
+                        ctx.lineTo(-p.width / 2, p.height / 4);
+                        ctx.closePath();
+                        ctx.fill();
+                        break;
+                }
+                ctx.restore();
+            }
+
+            updateParticle(p) {
+                p.velocityY += p.gravity;
+                p.velocityX *= p.drag;
+                p.velocityY *= p.drag;
+                p.x += p.velocityX + Math.sin(p.wobble) * 1.5;
+                p.y += p.velocityY;
+                p.rotation += p.rotationSpeed;
+                p.wobble += p.wobbleSpeed;
+                p.tilt += 0.03;
+
+                if (p.y > this.height - 50) {
+                    p.opacity -= 0.02;
+                }
+
+                return p.y < this.height + 20 && p.opacity > 0;
+            }
+
+            animate() {
+                if (this.running && this.particles.length < 100 && Math.random() > 0.7) {
+                    this.particles.push(this.createParticle(true));
+                }
+
+                this.particles = this.particles.filter(p => this.updateParticle(p));
+                this.drawCard();
+
+                if (this.running) {
+                    cardAnimationId = requestAnimationFrame(() => this.animate());
+                }
+            }
+
+            start() {
+                this.running = true;
+                for (let i = 0; i < 30; i++) {
+                    this.particles.push(this.createParticle(false));
+                }
+                this.animate();
+            }
+
+            stop() {
+                this.running = false;
+                if (cardAnimationId) {
+                    cancelAnimationFrame(cardAnimationId);
+                }
+            }
+
+            clear() {
+                this.particles = [];
+                this.ctx.clearRect(0, 0, this.width, this.height);
+            }
+            
+            getFrame() {
+                return this.canvas;
+            }
+        }
 
         function getNextBirthday(birthday) {
             const now = new Date();
@@ -1134,8 +1668,6 @@
             
             return nextBirthday;
         }
-
-         
 
         function getAge(birthday) {
             const now = new Date();
@@ -1172,6 +1704,156 @@
             return `<div class="avatar-placeholder" style="width: ${size}px; height: ${size}px;">${user.pseudo.charAt(0).toUpperCase()}</div>`;
         }
 
+        function formatPseudo(user) {
+            const parts = user.pseudo.trim().split(' ');
+            if (parts.length === 1) return parts[0];
+            const firstName = parts[0];
+            const lastInitial = parts[1].charAt(0).toUpperCase();
+            return `${firstName} ${lastInitial}.`;
+        }
+
+        // ============================================
+        // FONCTIONS DE PARTAGE
+        // ============================================
+        function openShareModal(user) {
+            currentShareUser = user;
+            
+            document.getElementById('share-modal').classList.add('active');
+            
+            // Démarrer le rendu de la carte sur le canvas
+            setTimeout(() => {
+                const cardCanvas = document.getElementById('card-confetti-canvas');
+                if (cardConfetti) {
+                    cardConfetti.stop();
+                    cardConfetti.clear();
+                }
+                cardConfetti = new CardRenderer(cardCanvas);
+                cardConfetti.setUser(user);
+                
+                // Attendre que l'image soit chargée
+                setTimeout(() => {
+                    cardConfetti.start();
+                }, 200);
+            }, 100);
+        }
+
+        function closeShareModal() {
+            document.getElementById('share-modal').classList.remove('active');
+            if (cardConfetti) {
+                cardConfetti.stop();
+                cardConfetti.clear();
+            }
+            currentShareUser = null;
+        }
+
+        async function downloadGif() {
+            const generatingText = document.getElementById('generating-text');
+            generatingText.classList.add('active');
+            showToast('Capture en cours... 📸');
+
+            try {
+                // Capturer les frames directement depuis le canvas
+                const frames = [];
+                const totalFrames = 60; // 60 frames pour 60 FPS
+                
+                for (let i = 0; i < totalFrames; i++) {
+                    await new Promise(resolve => setTimeout(resolve, 16)); // ~60fps de capture (1000/60 ≈ 16ms)
+                    
+                    // Copier le canvas actuel
+                    const frameCanvas = document.createElement('canvas');
+                    frameCanvas.width = cardConfetti.width;
+                    frameCanvas.height = cardConfetti.height;
+                    const frameCtx = frameCanvas.getContext('2d');
+                    frameCtx.drawImage(cardConfetti.canvas, 0, 0);
+                    
+                    frames.push(frameCanvas);
+                }
+
+                showToast('Création du GIF... ⏳');
+
+                // Créer le worker blob pour éviter CORS
+                const workerCode = await fetch('https://cdnjs.cloudflare.com/ajax/libs/gif.js/0.2.0/gif.worker.js').then(r => r.text());
+                const workerBlob = new Blob([workerCode], { type: 'application/javascript' });
+                const workerUrl = URL.createObjectURL(workerBlob);
+
+                const gif = new GIF({
+                    workers: 4,
+                    quality: 1, // Meilleure qualité (1 = max)
+                    width: cardConfetti.width,
+                    height: cardConfetti.height,
+                    workerScript: workerUrl,
+                    transparent: null,
+                    dither: 'FloydSteinberg' // Dithering pour éviter les bandes
+                });
+
+                frames.forEach(frame => {
+                    gif.addFrame(frame, { delay: 16, copy: true }); // 16ms = ~60fps
+                });
+
+                gif.on('finished', function(blob) {
+                    URL.revokeObjectURL(workerUrl);
+                    
+                    const url = URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.download = `anniversaire-${formatPseudo(currentShareUser).replace(/\s+/g, '-')}.gif`;
+                    link.href = url;
+                    link.click();
+                    
+                    setTimeout(() => URL.revokeObjectURL(url), 100);
+                    
+                    generatingText.classList.remove('active');
+                    showToast('GIF téléchargé ! 🎬');
+                });
+
+                gif.on('error', function(err) {
+                    console.error('GIF error:', err);
+                    URL.revokeObjectURL(workerUrl);
+                    fallbackToPng();
+                });
+
+                gif.render();
+
+            } catch (error) {
+                console.error('Erreur GIF:', error);
+                fallbackToPng();
+            }
+        }
+
+        async function fallbackToPng() {
+            const generatingText = document.getElementById('generating-text');
+            generatingText.classList.remove('active');
+            showToast('Téléchargement PNG...');
+            
+            try {
+                const link = document.createElement('a');
+                link.download = `anniversaire-${formatPseudo(currentShareUser).replace(/\s+/g, '-')}.png`;
+                link.href = cardConfetti.canvas.toDataURL('image/png');
+                link.click();
+            } catch (e) {
+                showToast('Erreur lors du téléchargement');
+            }
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('active');
+            
+            setTimeout(() => {
+                toast.classList.remove('active');
+            }, 3000);
+        }
+
+        // Fermer le modal en cliquant à l'extérieur
+        document.getElementById('share-modal').addEventListener('click', (e) => {
+            if (e.target.id === 'share-modal') {
+                closeShareModal();
+            }
+        });
+
+        // ============================================
+        // CRÉATION DES CARTES
+        // ============================================
         function createBirthdayCard(user, index) {
             const nextBirthday = getNextBirthday(user.birthday);
             const currentAge = getAge(user.birthday);
@@ -1220,6 +1902,8 @@
 
         function createTodayCard(user) {
             const age = getAge(user.birthday);
+            const userIndex = users.indexOf(user);
+            
             return `
                 <section class="today-section">
                     <h2 class="section-title">
@@ -1236,6 +1920,11 @@
                             <p class="today-details">
                                 <span class="detail-item">📅 Né(e) le ${user.birthday.day} ${monthNames[user.birthday.month - 1]} ${user.birthday.year}</span>
                             </p>
+                            <div class="share-buttons">
+                                <button class="share-btn share-btn-primary" onclick="openShareModal(users[${userIndex}])">
+                                    🎁 Créer une carte de vœux
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </section>
@@ -1251,13 +1940,11 @@
             const youngestUser = users.find(u => getAge(u.birthday) === youngestAge);
             const oldestUser = users.find(u => getAge(u.birthday) === oldestAge);
             
-            // Prochain anniversaire
             const upcomingBirthdays = users.filter(u => !isBirthdayToday(u.birthday));
             upcomingBirthdays.sort((a, b) => getNextBirthday(a.birthday) - getNextBirthday(b.birthday));
             const nextBirthdayUser = upcomingBirthdays[0];
             const daysUntilNext = nextBirthdayUser ? Math.ceil((getNextBirthday(nextBirthdayUser.birthday) - new Date()) / (1000 * 60 * 60 * 24)) : 0;
             
-            // Mois avec le plus d'anniversaires
             const monthCounts = {};
             users.forEach(u => {
                 const month = u.birthday.month;
@@ -1265,7 +1952,6 @@
             });
             const topMonth = Object.entries(monthCounts).sort((a, b) => b[1] - a[1])[0];
             
-            // Anniversaires aujourd'hui
             const todayCount = users.filter(u => isBirthdayToday(u.birthday)).length;
 
             return {
@@ -1335,7 +2021,6 @@
             if (todayBirthdays.length > 0) {
                 todayContainer.innerHTML = todayBirthdays.map(u => createTodayCard(u)).join('');
                 
-                // Lancer les confettis
                 const canvas = document.getElementById('confetti-canvas');
                 confetti = new Confetti(canvas);
                 confetti.start();
@@ -1348,104 +2033,85 @@
             }
         }
 
-      function updateCountdowns() {
-
-    document.querySelectorAll('.countdown, .top3-countdown').forEach(el => {
-        const cd = getCountdown(new Date(el.dataset.target));
-
-        el.querySelector('.days').textContent = cd.days;
-        el.querySelector('.hours').textContent = cd.hours;
-        el.querySelector('.minutes').textContent = cd.minutes;
-        el.querySelector('.seconds').textContent = cd.seconds;
-    });
-
-}
-
+        function updateCountdowns() {
+            document.querySelectorAll('.countdown, .top3-countdown').forEach(el => {
+                const cd = getCountdown(new Date(el.dataset.target));
+                el.querySelector('.days').textContent = cd.days;
+                el.querySelector('.hours').textContent = cd.hours;
+                el.querySelector('.minutes').textContent = cd.minutes;
+                el.querySelector('.seconds').textContent = cd.seconds;
+            });
+        }
 
         function createTop3Tile(user, rank) {
-    const next = getNextBirthday(user.birthday);
-    const upcomingAge = getAge(user.birthday) + 1;
-    const cd = getCountdown(next);
+            const next = getNextBirthday(user.birthday);
+            const upcomingAge = getAge(user.birthday) + 1;
+            const cd = getCountdown(next);
 
-    const imageHTML = user.avatar
-        ? `<img src="${user.avatar}" class="top3-tile-image"
-             onerror="this.outerHTML='<div class=\\'top3-tile-placeholder\\'>${user.pseudo.charAt(0)}</div>'">`
-        : `<div class="top3-tile-placeholder">${formatPseudo(user).charAt(0)}</div>`;
+            const imageHTML = user.avatar
+                ? `<img src="${user.avatar}" class="top3-tile-image"
+                     onerror="this.outerHTML='<div class=\\'top3-tile-placeholder\\'>${user.pseudo.charAt(0)}</div>'">`
+                : `<div class="top3-tile-placeholder">${formatPseudo(user).charAt(0)}</div>`;
 
-    return `
-        <div class="top3-tile-wrapper">
-            <div class="top3-tile-link">
-                <div class="top3-rank-container">
-                    <img src="${rank}.png" class="rank-image" alt="${rank}">
-                </div>
-
-                <div class="top3-image-container">
-                    ${imageHTML}
-
-                    <div class="top3-tile-overlays">
-                        <div class="top3-tile-header">
-                            <p class="top3-tile-name">${formatPseudo(user)}</p>
-                            <span class="top3-age-badge">${upcomingAge} ans</span>
-
-
+            return `
+                <div class="top3-tile-wrapper">
+                    <div class="top3-tile-link">
+                        <div class="top3-rank-container">
+                            <img src="${rank}.png" class="rank-image" alt="${rank}" onerror="this.outerHTML='<span style=\\'font-size:4rem;font-weight:800;color:#e50914;\\'>${rank}</span>'">
                         </div>
 
-                        <p class="top3-tile-date">
-                            📅 ${user.birthday.day} ${monthNames[user.birthday.month - 1]}
-                        </p>
+                        <div class="top3-image-container">
+                            ${imageHTML}
 
-                        <div class="top3-countdown" data-target="${next.toISOString()}">
-                            <div class="top3-countdown-item">
-                                <div class="top3-countdown-value days">${cd.days}</div>
-                                <div class="top3-countdown-label">J</div>
-                            </div>
-                            <div class="top3-countdown-item">
-                                <div class="top3-countdown-value hours">${cd.hours}</div>
-                                <div class="top3-countdown-label">H</div>
-                            </div>
-                            <div class="top3-countdown-item">
-                                <div class="top3-countdown-value minutes">${cd.minutes}</div>
-                                <div class="top3-countdown-label">M</div>
-                            </div>
-                            <div class="top3-countdown-item">
-                                <div class="top3-countdown-value seconds">${cd.seconds}</div>
-                                <div class="top3-countdown-label">S</div>
+                            <div class="top3-tile-overlays">
+                                <div class="top3-tile-header">
+                                    <p class="top3-tile-name">${formatPseudo(user)}</p>
+                                    <span class="top3-age-badge">${upcomingAge} ans</span>
+                                </div>
+
+                                <p class="top3-tile-date">
+                                    📅 ${user.birthday.day} ${monthNames[user.birthday.month - 1]}
+                                </p>
+
+                                <div class="top3-countdown" data-target="${next.toISOString()}">
+                                    <div class="top3-countdown-item">
+                                        <div class="top3-countdown-value days">${cd.days}</div>
+                                        <div class="top3-countdown-label">J</div>
+                                    </div>
+                                    <div class="top3-countdown-item">
+                                        <div class="top3-countdown-value hours">${cd.hours}</div>
+                                        <div class="top3-countdown-label">H</div>
+                                    </div>
+                                    <div class="top3-countdown-item">
+                                        <div class="top3-countdown-value minutes">${cd.minutes}</div>
+                                        <div class="top3-countdown-label">M</div>
+                                    </div>
+                                    <div class="top3-countdown-item">
+                                        <div class="top3-countdown-value seconds">${cd.seconds}</div>
+                                        <div class="top3-countdown-label">S</div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    `;
-}
+            `;
+        }
 
-function formatPseudo(user) {
-    const parts = user.pseudo.trim().split(' ');
-    if (parts.length === 1) return parts[0]; // juste le prénom
-    const firstName = parts[0];
-    const lastInitial = parts[1].charAt(0).toUpperCase();
-    return `${firstName} ${lastInitial}.`;
-}
+        function renderTop3() {
+            const list = document.getElementById('top3-list');
 
+            const upcoming = users
+                .filter(u => !isBirthdayToday(u.birthday))
+                .sort((a, b) =>
+                    getNextBirthday(a.birthday) - getNextBirthday(b.birthday)
+                );
 
-
-function renderTop3() {
-    const list = document.getElementById('top3-list');
-
-    const upcoming = users
-        .filter(u => !isBirthdayToday(u.birthday))
-        .sort((a, b) =>
-            getNextBirthday(a.birthday) - getNextBirthday(b.birthday)
-        );
-
-    list.innerHTML = upcoming
-        .slice(0, 3)
-        .map((u, i) => createTop3Tile(u, i + 1))
-        .join('');
-}
-
-
-
+            list.innerHTML = upcoming
+                .slice(0, 3)
+                .map((u, i) => createTop3Tile(u, i + 1))
+                .join('');
+        }
 
         // Initialisation
         createStars();
@@ -1453,9 +2119,6 @@ function renderTop3() {
         renderTop3();
         renderBirthdays();
         setInterval(updateCountdowns, 1000);
-
-        
-
     </script>
 </body>
 </html>
