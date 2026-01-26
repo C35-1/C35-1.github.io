@@ -1326,7 +1326,7 @@
         
         const users = [
             // UTILISATEUR TEST - ANNIVERSAIRE AUJOURD'HUI
-            // { pseudo: "Test USER", birthday: { day: today.getDate(), month: today.getMonth() + 1, hour: 0, minute: 0, second: 0, year: 1995 } },
+            //{ pseudo: "Test USER", birthday: { day: today.getDate(), month: today.getMonth() + 1, hour: 0, minute: 0, second: 0, year: 1995 } },
             
             { pseudo: "Lilian BERGUIO", birthday: { day: 10, month: 11, hour:0, minute:0, second:0, year:2002 } },
             { pseudo: "Laurent LOZANO", birthday: { day: 6, month:11, hour:0, minute:0, second:0, year:1977 } },
@@ -1390,11 +1390,11 @@
                 this.height = 450;
                 this.canvas.width = this.width;
                 this.canvas.height = this.height;
-                this.borderRadius = 12;
+                this.borderRadius = 16;
             }
 
             setUser(user) {
-                this.userName = formatPseudo(user);
+                this.userName = user.pseudo; // Pseudo entier
                 this.userAge = getAge(user.birthday);
                 this.userInitial = user.pseudo.charAt(0).toUpperCase();
                 
@@ -1418,25 +1418,25 @@
 
             createParticle(fromTop = true) {
                 const color = this.colors[Math.floor(Math.random() * this.colors.length)];
-                const shapes = ['square', 'circle', 'ribbon'];
+                const shapes = ['square', 'circle', 'ribbon', 'star'];
                 const shape = shapes[Math.floor(Math.random() * shapes.length)];
                 
                 return {
                     x: Math.random() * this.width,
-                    y: fromTop ? -10 : Math.random() * this.height * 0.5,
-                    width: Math.random() * 8 + 4,
-                    height: Math.random() * 6 + 3,
+                    y: fromTop ? -10 : Math.random() * this.height * 0.6,
+                    width: Math.random() * 10 + 5,
+                    height: Math.random() * 8 + 4,
                     color: color,
                     shape: shape,
                     rotation: Math.random() * 360,
-                    rotationSpeed: (Math.random() - 0.5) * 10,
-                    velocityX: (Math.random() - 0.5) * 3,
-                    velocityY: Math.random() * 2 + 1,
-                    gravity: 0.05,
-                    drag: 0.99,
+                    rotationSpeed: (Math.random() - 0.5) * 6, // Rotation plus lente
+                    velocityX: (Math.random() - 0.5) * 1, // Moins de mouvement horizontal
+                    velocityY: Math.random() * 0.8 + 0.3, // Chute plus lente
+                    gravity: 0.015, // Gravité réduite
+                    drag: 0.998,
                     opacity: 1,
                     wobble: Math.random() * 10,
-                    wobbleSpeed: Math.random() * 0.1 + 0.03,
+                    wobbleSpeed: Math.random() * 0.04 + 0.01, // Oscillation plus lente
                     tilt: Math.random() * Math.PI
                 };
             }
@@ -1465,19 +1465,20 @@
                 this.drawRoundedRect(0, 0, this.width, this.height, this.borderRadius);
                 ctx.clip();
                 
-                // Fond
-                ctx.fillStyle = '#0d0d0d';
+                // === FOND PRINCIPAL ===
+                ctx.fillStyle = '#0a0a0a';
                 ctx.fillRect(0, 0, this.width, this.height);
                 
-                // Image ou placeholder
+                // === IMAGE (partie haute) ===
+                const imageHeight = 280;
                 if (this.image && this.imageLoaded) {
                     const imgRatio = this.image.width / this.image.height;
-                    const cardRatio = this.width / this.height;
+                    const cardRatio = this.width / imageHeight;
                     let drawWidth, drawHeight, drawX, drawY;
                     
                     if (imgRatio > cardRatio) {
-                        drawHeight = this.height;
-                        drawWidth = this.image.width * (this.height / this.image.height);
+                        drawHeight = imageHeight;
+                        drawWidth = this.image.width * (imageHeight / this.image.height);
                         drawX = (this.width - drawWidth) / 2;
                         drawY = 0;
                     } else {
@@ -1488,84 +1489,108 @@
                     }
                     ctx.drawImage(this.image, drawX, drawY, drawWidth, drawHeight);
                 } else {
-                    const gradient = ctx.createLinearGradient(0, 0, this.width, this.height);
-                    gradient.addColorStop(0, '#1a1a2e');
-                    gradient.addColorStop(1, '#0d0d0d');
-                    ctx.fillStyle = gradient;
-                    ctx.fillRect(0, 0, this.width, this.height);
+                    // Placeholder stylé
+                    ctx.fillStyle = '#1a1a2e';
+                    ctx.fillRect(0, 0, this.width, imageHeight);
                     
-                    ctx.fillStyle = 'rgba(255, 255, 255, 0.15)';
-                    ctx.font = 'bold 80px Outfit, sans-serif';
+                    ctx.fillStyle = 'rgba(229, 9, 20, 0.3)';
+                    ctx.font = 'bold 120px Outfit, sans-serif';
                     ctx.textAlign = 'center';
                     ctx.textBaseline = 'middle';
-                    ctx.fillText(this.userInitial, this.width / 2, this.height / 2);
+                    ctx.fillText(this.userInitial, this.width / 2, imageHeight / 2);
                 }
                 
-                // Confettis
+                // === ZONE INFOS (fond solide) ===
+                const infoBoxY = imageHeight - 10;
+                const infoBoxHeight = this.height - infoBoxY;
+                
+                // Fond solide noir
+                ctx.fillStyle = '#0d0d0d';
+                ctx.fillRect(0, infoBoxY, this.width, infoBoxHeight);
+                
+                // Ligne rouge en haut de la zone info
+                ctx.fillStyle = '#e50914';
+                ctx.fillRect(0, infoBoxY, this.width, 3);
+                
+                // === CONFETTIS (au dessus de l'image, en dessous du texte) ===
                 this.particles.forEach(p => this.drawParticle(p));
                 
-                // Overlay gradient avec dithering manuel
-                const overlayHeight = 200;
-                for (let y = 0; y < overlayHeight; y++) {
-                    const progress = y / overlayHeight; // 0 = haut du dégradé, 1 = bas
-                    // Calculer l'opacité (transparent en haut, opaque en bas)
-                    let alpha;
-                    if (progress < 0.2) {
-                        alpha = progress * 2; // 0 -> 0.4
-                    } else if (progress < 0.4) {
-                        alpha = 0.4 + (progress - 0.2) * 1.5; // 0.4 -> 0.7
-                    } else if (progress < 0.6) {
-                        alpha = 0.7 + (progress - 0.4) * 1; // 0.7 -> 0.9
-                    } else if (progress < 0.8) {
-                        alpha = 0.9 + (progress - 0.6) * 0.25; // 0.9 -> 0.95
-                    } else {
-                        alpha = 0.95 + (progress - 0.8) * 0.25; // 0.95 -> 1
-                    }
-                    alpha = Math.max(0, Math.min(1, alpha));
-                    
-                    // Ajouter un léger bruit pour éviter le banding
-                    const noise = (Math.random() - 0.5) * 0.03;
-                    alpha = Math.max(0, Math.min(1, alpha + noise));
-                    
-                    ctx.fillStyle = `rgba(30, 30, 35, ${alpha})`;
-                    ctx.fillRect(0, this.height - overlayHeight + y, this.width, 1);
-                }
-                
-                // Nom - plus grand
-                ctx.fillStyle = '#ffffff';
-                ctx.font = 'bold 24px Outfit, sans-serif';
-                ctx.textAlign = 'left';
-                ctx.textBaseline = 'middle';
-                ctx.fillText(this.userName, 16, this.height - 55);
-                
-                // Badge d'âge - plus grand
+                // === BADGE D'ÂGE (en haut à droite) ===
                 const badgeText = `${this.userAge} ans`;
-                ctx.font = 'bold 14px Outfit, sans-serif';
-                const badgeWidth = ctx.measureText(badgeText).width + 28;
-                const badgeHeight = 28;
-                const badgeX = this.width - badgeWidth - 16;
-                const badgeY = this.height - 69;
+                ctx.font = 'bold 16px Outfit, sans-serif';
+                const badgeWidth = ctx.measureText(badgeText).width + 24;
+                const badgeHeight = 32;
+                const badgeX = this.width - badgeWidth - 12;
+                const badgeY = 12;
                 
-                ctx.fillStyle = 'rgba(58, 58, 58, 0.7)';
-                this.drawRoundedRect(badgeX, badgeY, badgeWidth, badgeHeight, 14);
+                // Fond du badge
+                ctx.fillStyle = '#e50914';
+                this.drawRoundedRect(badgeX, badgeY, badgeWidth, badgeHeight, 16);
                 ctx.fill();
                 
+                // Texte du badge
                 ctx.fillStyle = '#ffffff';
-                ctx.font = 'bold 14px Outfit, sans-serif';
+                ctx.font = 'bold 16px Outfit, sans-serif';
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
                 ctx.fillText(badgeText, badgeX + badgeWidth / 2, badgeY + badgeHeight / 2);
                 
-                // Message - plus grand
-                ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
-                ctx.font = '16px Outfit, sans-serif';
+                // === EMOJI GATEAU ===
+                ctx.font = '36px Arial';
                 ctx.textAlign = 'left';
-                ctx.fillText('🎂 Fête son anniversaire aujourd\'hui !', 16, this.height - 20);
+                ctx.fillText('🎂', 20, infoBoxY + 45);
                 
-                // Bordure
+                // === NOM (taille adaptative) ===
+                ctx.fillStyle = '#ffffff';
+                let fontSize = 24;
+                ctx.font = `bold ${fontSize}px Outfit, sans-serif`;
+                
+                // Réduire la taille si le nom est trop long
+                while (ctx.measureText(this.userName).width > this.width - 90 && fontSize > 14) {
+                    fontSize -= 2;
+                    ctx.font = `bold ${fontSize}px Outfit, sans-serif`;
+                }
+                
+                ctx.textAlign = 'left';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(this.userName, 65, infoBoxY + 38);
+                
+                // === MESSAGE ===
+                ctx.fillStyle = '#e50914';
+                ctx.font = 'bold 13px Outfit, sans-serif';
+                ctx.textAlign = 'left';
+                ctx.fillText('JOYEUX ANNIVERSAIRE !', 65, infoBoxY + 60);
+                
+                // === LIGNE SÉPARATRICE ===
                 ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
                 ctx.lineWidth = 1;
-                this.drawRoundedRect(0.5, 0.5, this.width - 1, this.height - 1, this.borderRadius);
+                ctx.beginPath();
+                ctx.moveTo(20, infoBoxY + 80);
+                ctx.lineTo(this.width - 20, infoBoxY + 80);
+                ctx.stroke();
+                
+                // === INFOS SUPPLÉMENTAIRES ===
+                const today = new Date();
+                const dateStr = `${today.getDate()} ${monthNames[today.getMonth()]} ${today.getFullYear()}`;
+                
+                // Icône calendrier + date
+                ctx.font = '14px Arial';
+                ctx.fillText('📅', 20, infoBoxY + 105);
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
+                ctx.font = '13px Outfit, sans-serif';
+                ctx.fillText(dateStr, 45, infoBoxY + 105);
+                
+                // Icône étoile + message
+                ctx.font = '14px Arial';
+                ctx.fillText('⭐', 20, infoBoxY + 130);
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
+                ctx.font = '13px Outfit, sans-serif';
+                ctx.fillText(`Fête ses ${this.userAge} ans aujourd'hui`, 45, infoBoxY + 130);
+                
+                // === BORDURE CARD ===
+                ctx.strokeStyle = 'rgba(229, 9, 20, 0.3)';
+                ctx.lineWidth = 2;
+                this.drawRoundedRect(1, 1, this.width - 2, this.height - 2, this.borderRadius);
                 ctx.stroke();
                 
                 ctx.restore();
@@ -1598,21 +1623,50 @@
                         ctx.closePath();
                         ctx.fill();
                         break;
+                    case 'star':
+                        this.drawStar(0, 0, 5, p.width / 2, p.width / 4);
+                        break;
                 }
                 ctx.restore();
+            }
+            
+            drawStar(cx, cy, spikes, outerRadius, innerRadius) {
+                const ctx = this.ctx;
+                let rot = Math.PI / 2 * 3;
+                let step = Math.PI / spikes;
+
+                ctx.beginPath();
+                ctx.moveTo(cx, cy - outerRadius);
+
+                for (let i = 0; i < spikes; i++) {
+                    let x = cx + Math.cos(rot) * outerRadius;
+                    let y = cy + Math.sin(rot) * outerRadius;
+                    ctx.lineTo(x, y);
+                    rot += step;
+
+                    x = cx + Math.cos(rot) * innerRadius;
+                    y = cy + Math.sin(rot) * innerRadius;
+                    ctx.lineTo(x, y);
+                    rot += step;
+                }
+
+                ctx.lineTo(cx, cy - outerRadius);
+                ctx.closePath();
+                ctx.fill();
             }
 
             updateParticle(p) {
                 p.velocityY += p.gravity;
                 p.velocityX *= p.drag;
                 p.velocityY *= p.drag;
-                p.x += p.velocityX + Math.sin(p.wobble) * 1.5;
+                p.x += p.velocityX + Math.sin(p.wobble) * 0.6; // Oscillation réduite
                 p.y += p.velocityY;
                 p.rotation += p.rotationSpeed;
                 p.wobble += p.wobbleSpeed;
-                p.tilt += 0.03;
+                p.tilt += 0.01; // Tilt plus lent
 
-                if (p.y > this.height - 50) {
+                // Fade out près du bas
+                if (p.y > this.height - 80) {
                     p.opacity -= 0.02;
                 }
 
@@ -1620,7 +1674,7 @@
             }
 
             animate() {
-                if (this.running && this.particles.length < 100 && Math.random() > 0.7) {
+                if (this.running && this.particles.length < 80 && Math.random() > 0.6) {
                     this.particles.push(this.createParticle(true));
                 }
 
@@ -1634,7 +1688,7 @@
 
             start() {
                 this.running = true;
-                for (let i = 0; i < 30; i++) {
+                for (let i = 0; i < 40; i++) {
                     this.particles.push(this.createParticle(false));
                 }
                 this.animate();
@@ -2122,4 +2176,3 @@
     </script>
 </body>
 </html>
-
