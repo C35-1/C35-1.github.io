@@ -973,7 +973,7 @@
                     rotation: Math.random() * 360,
                     rotationSpeed: (Math.random() - 0.5) * 15,
                     velocityX: isExplosion ? (Math.random() - 0.5) * 25 : (Math.random() - 0.5) * 4,
-                    velocityY: isExplosion ? Math.random() * -12 - 5 : Math.random() * 1.5 + 1,
+                    velocityY: isExplosion ? Math.random() * -18 - 8 : Math.random() * 3 + 2,
                     gravity: 0.12,
                     drag: 0.99,
                     opacity: 1,
@@ -1018,7 +1018,7 @@
                 this.running = true;
                 this.continuousInterval = setInterval(() => {
                     if (this.running && this.particles.length < 200) this.particles.push(this.createParticle());
-                }, 180);
+                }, 80);
             }
 
             stop() {
@@ -1041,7 +1041,7 @@
                         const x = Math.random() > 0.5 ? this.canvas.width * 0.1 : this.canvas.width * 0.9;
                         this.burst(x, this.canvas.height * 0.3, 40);
                     }
-                }, 6000);
+                }, 4000);
                 setTimeout(() => this.burst(this.canvas.width * 0.3, this.canvas.height * 0.2, 70), 300);
                 setTimeout(() => this.burst(this.canvas.width * 0.7, this.canvas.height * 0.25, 70), 600);
             }
@@ -1197,7 +1197,7 @@
                     rotation: Math.random() * 360,
                     rotationSpeed: (Math.random() - 0.5) * 6,
                     velocityX: (Math.random() - 0.5) * 1,
-                    velocityY: Math.random() * 0.8 + 0.3,
+                    velocityY: Math.random() * 0.4 + 0.15,
                     gravity: 0.015,
                     drag: 0.998,
                     opacity: 1,
@@ -1338,7 +1338,7 @@
             }
 
             animate() {
-                if (this.running && this.particles.length < 80 && Math.random() > 0.6) this.particles.push(this.createParticle(true));
+                if (this.running && this.particles.length < 50 && Math.random() > 0.75) this.particles.push(this.createParticle(true));
                 this.particles = this.particles.filter(p => this.updateParticle(p));
                 this.drawCard();
                 if (this.running) cardAnimationId = requestAnimationFrame(() => this.animate());
@@ -1346,7 +1346,7 @@
 
             start() {
                 this.running = true;
-                for (let i = 0; i < 40; i++) this.particles.push(this.createParticle(false));
+                for (let i = 0; i < 20; i++) this.particles.push(this.createParticle(false));
                 this.animate();
             }
 
@@ -1439,6 +1439,11 @@
 
         document.getElementById('share-modal').addEventListener('click', (e) => { if (e.target.id === 'share-modal') closeShareModal(); });
 
+        document.addEventListener('visibilitychange', () => {
+            if (!document.hidden && cardConfetti && cardConfetti.running) {
+                cardConfetti.animate();
+            }    
+        });    
         // CARTES ANNIVERSAIRE
         function createBirthdayCard(user, index) {
             const nextBirthday = getNextBirthday(user.birthday);
@@ -1623,4 +1628,5 @@
     </script>
 </body>
 </html>
+
 
