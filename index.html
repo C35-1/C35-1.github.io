@@ -1387,8 +1387,8 @@
 
             try {
                 const frames = [];
-                for (let i = 0; i < 60; i++) {
-                    await new Promise(resolve => setTimeout(resolve, 16));
+                for (let i = 0; i < 120; i++) {
+                    await new Promise(resolve => setTimeout(resolve, 33));
                     const frameCanvas = document.createElement('canvas');
                     frameCanvas.width = cardConfetti.width;
                     frameCanvas.height = cardConfetti.height;
@@ -1402,7 +1402,7 @@
                 const workerUrl = URL.createObjectURL(workerBlob);
 
                 const gif = new GIF({ workers: 4, quality: 1, width: cardConfetti.width, height: cardConfetti.height, workerScript: workerUrl });
-                frames.forEach(frame => { gif.addFrame(frame, { delay: 16, copy: true }); });
+                frames.forEach(frame => { gif.addFrame(frame, { delay: 33, copy: true }); });
 
                 gif.on('finished', function(blob) {
                     URL.revokeObjectURL(workerUrl);
@@ -1628,5 +1628,6 @@
     </script>
 </body>
 </html>
+
 
 
