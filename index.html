@@ -1386,23 +1386,26 @@
             showToast('Capture en cours... 📸');
 
             try {
-                const frames = [];
-                for (let i = 0; i < 120; i++) {
-                    await new Promise(resolve => setTimeout(resolve, 33));
-                    const frameCanvas = document.createElement('canvas');
-                    frameCanvas.width = cardConfetti.width;
-                    frameCanvas.height = cardConfetti.height;
-                    frameCanvas.getContext('2d').drawImage(cardConfetti.canvas, 0, 0);
-                    frames.push(frameCanvas);
-                }
+    // Laisser l'animation tourner 2 secondes avant de capturer
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    
+    const frames = [];
+    for (let i = 0; i < 90; i++) {
+        await new Promise(resolve => setTimeout(resolve, 44));
+        const frameCanvas = document.createElement('canvas');
+        frameCanvas.width = cardConfetti.width;
+        frameCanvas.height = cardConfetti.height;
+        frameCanvas.getContext('2d').drawImage(cardConfetti.canvas, 0, 0);
+        frames.push(frameCanvas);
+    }
 
-                showToast('Création du GIF... ⏳');
-                const workerCode = await fetch('https://cdnjs.cloudflare.com/ajax/libs/gif.js/0.2.0/gif.worker.js').then(r => r.text());
-                const workerBlob = new Blob([workerCode], { type: 'application/javascript' });
-                const workerUrl = URL.createObjectURL(workerBlob);
+    showToast('Création du GIF... ⏳');
+    const workerCode = await fetch('https://cdnjs.cloudflare.com/ajax/libs/gif.js/0.2.0/gif.worker.js').then(r => r.text());
+    const workerBlob = new Blob([workerCode], { type: 'application/javascript' });
+    const workerUrl = URL.createObjectURL(workerBlob);
 
-                const gif = new GIF({ workers: 4, quality: 1, width: cardConfetti.width, height: cardConfetti.height, workerScript: workerUrl });
-                frames.forEach(frame => { gif.addFrame(frame, { delay: 33, copy: true }); });
+    const gif = new GIF({ workers: 4, quality: 1, width: cardConfetti.width, height: cardConfetti.height, workerScript: workerUrl });
+    frames.forEach(frame => { gif.addFrame(frame, { delay: 44, copy: true }); });
 
                 gif.on('finished', function(blob) {
                     URL.revokeObjectURL(workerUrl);
@@ -1628,6 +1631,7 @@
     </script>
 </body>
 </html>
+
 
 
 
