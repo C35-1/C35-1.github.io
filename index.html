@@ -973,7 +973,7 @@
                     rotation: Math.random() * 360,
                     rotationSpeed: (Math.random() - 0.5) * 15,
                     velocityX: isExplosion ? (Math.random() - 0.5) * 25 : (Math.random() - 0.5) * 4,
-                    velocityY: isExplosion ? Math.random() * -18 - 8 : Math.random() * 3 + 2,
+                    velocityY: isExplosion ? Math.random() * -12 - 5 : Math.random() * 1.5 + 1,
                     gravity: 0.12,
                     drag: 0.99,
                     opacity: 1,
@@ -1018,7 +1018,7 @@
                 this.running = true;
                 this.continuousInterval = setInterval(() => {
                     if (this.running && this.particles.length < 200) this.particles.push(this.createParticle());
-                }, 80);
+                }, 180);
             }
 
             stop() {
@@ -1041,7 +1041,7 @@
                         const x = Math.random() > 0.5 ? this.canvas.width * 0.1 : this.canvas.width * 0.9;
                         this.burst(x, this.canvas.height * 0.3, 40);
                     }
-                }, 4000);
+                }, 6000);
                 setTimeout(() => this.burst(this.canvas.width * 0.3, this.canvas.height * 0.2, 70), 300);
                 setTimeout(() => this.burst(this.canvas.width * 0.7, this.canvas.height * 0.25, 70), 600);
             }
@@ -1623,3 +1623,4 @@
     </script>
 </body>
 </html>
+
